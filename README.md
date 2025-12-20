@@ -484,10 +484,11 @@ Projet académique - Libre d'utilisation à titre éducatif
 ## 📞 Support
 
 Pour toute question ou problème:
-1. Vérifier le fichier `help.txt`
+1. Vérifier le fichier [help.txt](help.txt)
 2. Consulter les commentaires détaillés dans le code source
 3. Vérifier que l'environnement MSYS2 est correctement configuré
 
 ---
 
 **Dernière mise à jour**: Décembre 2025
+
