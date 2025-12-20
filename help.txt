@@ -1,0 +1,275 @@
+================================================================================
+                  GUIDE RAPIDE - GESTION DES ÉTUDIANTS
+                        Projet C - USTM DUT2-GRT
+================================================================================
+
+📌 PRÉREQUIS OBLIGATOIRES
+================================================================================
+
+✓ Avoir MSYS2 installé sur Windows (https://www.msys2.org/)
+✓ Ouvrir le terminal MSYS2 MinGW 64-bit
+✓ Naviguer vers le répertoire du projet
+
+
+📦 ÉTAPE 1: METTRE À JOUR MSYS2
+================================================================================
+
+Exécutez ces commandes dans le terminal MSYS2:
+
+1. Mettre à jour la base de données des paquets:
+   $ pacman -Syu
+
+   Répondez 'y' à toutes les questions et attendez que cela se termine.
+   La fenêtre peut se fermer - c'est normal. Relancez MSYS2.
+
+2. Deuxième mise à jour (parfois nécessaire):
+   $ pacman -Syu
+
+   Attendez jusqu'à "there is nothing to do".
+
+
+🛠️ ÉTAPE 2: INSTALLER LE COMPILATEUR GCC
+================================================================================
+
+Installer le toolchain complet MinGW-w64:
+
+   $ pacman -S mingw-w64-x86_64-toolchain
+
+   ⏱️ Cela prendra 5-10 minutes. Répondez 'y' quand demandé.
+   
+   Cela installe automatiquement:
+   ✓ gcc (compilateur C/C++)
+   ✓ gdb (débogeur)
+   ✓ make (outil de build)
+   ✓ binutils (utilitaires)
+
+
+📚 ÉTAPE 3: INSTALLER GTK+ 3.0 (POUR LA VERSION GUI)
+================================================================================
+
+Si vous voulez compiler la VERSION GRAPHIQUE UNIQUEMENT:
+
+   $ pacman -S mingw-w64-x86_64-gtk3
+   $ pacman -S mingw-w64-x86_64-pkg-config
+
+✓ GTK+ est la bibliothèque graphique (interface windows)
+✓ pkg-config aide à trouver les en-têtes et bibliothèques
+
+
+✅ ÉTAPE 4: VÉRIFIER L'INSTALLATION
+================================================================================
+
+Vérifier que tout est bien installé:
+
+   $ gcc --version
+   → Doit afficher: gcc (GCC) version ... (par exemple 13.2.0)
+
+   $ pkg-config --modversion gtk+-3.0
+   → Doit afficher: 3.x.x (version GTK+)
+
+   ✓ Si vous voyez les versions, tout est OK!
+   ✗ Si erreur "command not found", relancer les étapes précédentes
+
+
+📂 ÉTAPE 5: NAVIGUER AU RÉPERTOIRE DU PROJET
+================================================================================
+
+Depuis le terminal MSYS2:
+
+   # Exemple (adapter votre chemin):
+   $ cd /c/Users/DELL/Documents/USTM/DUT2-GRT/S1/Programmation_avances/projet/alg0_tri
+
+   # Vérifier que vous êtes au bon endroit:
+   $ ls
+   → Doit afficher: CMD_gestion/  GUI_gestion/  README.md  help.txt
+
+
+🔨 COMPILATION
+================================================================================
+
+═══════════════════════════════════════════════════════════════════════════════
+A) VERSION CONSOLE (CMD) - Pas de dépendances externes
+═══════════════════════════════════════════════════════════════════════════════
+
+Aller dans le répertoire CMD_gestion:
+   $ cd CMD_gestion
+
+Compiler les fichiers:
+   $ gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
+
+Ou avec options complètes (recommandé):
+   $ gcc -Wall -Wextra -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
+
+Explications:
+   ✓ -Wall -Wextra : Affiche tous les avertissements (pour déboguer)
+   ✓ -o : Spécifie le nom du fichier exécutable
+   ✓ Les trois fichiers .c doivent être compilés ensemble
+
+✓ RÉSULTAT: gestion_etudiants.exe est créé
+
+
+═══════════════════════════════════════════════════════════════════════════════
+B) VERSION GRAPHIQUE (GUI) - Avec GTK+ 3.0
+═══════════════════════════════════════════════════════════════════════════════
+
+Aller dans le répertoire GUI_gestion:
+   $ cd ../GUI_gestion
+
+Compiler avec GTK+ (très important d'utiliser les backticks):
+   $ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c \
+       `pkg-config --cflags gtk+-3.0` \
+       `pkg-config --libs gtk+-3.0`
+
+Ou sur une seule ligne:
+   $ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+
+Explications:
+   ✓ `pkg-config --cflags gtk+-3.0` : Cherche les en-têtes GTK+
+   ✓ `pkg-config --libs gtk+-3.0` : Cherche les bibliothèques GTK+
+   ✓ Les backticks (`) exécutent la commande et insèrent le résultat
+   ✓ Important: utiliser les backticks (`) et non les guillemets (')
+
+✓ RÉSULTAT: gestion_etudiants_gui.exe est créé
+
+
+🚀 EXÉCUTION
+================================================================================
+
+═══════════════════════════════════════════════════════════════════════════════
+VERSION CONSOLE
+═══════════════════════════════════════════════════════════════════════════════
+
+Depuis le répertoire CMD_gestion:
+   $ ./gestion_etudiants.exe
+
+Ou:
+   $ gestion_etudiants.exe
+
+PROCESSUS D'UTILISATION:
+   1. Le programme affiche le nombre d'étudiants existants
+   2. Saisissez les informations du nouvel étudiant
+   3. Le programme vérifie les doublons (matricule unique)
+   4. Trouve automatiquement la position (tri alphabétique)
+   5. Insère l'étudiant et sauvegarde dans le CSV
+   6. Affiche un message de confirmation
+
+
+═══════════════════════════════════════════════════════════════════════════════
+VERSION GRAPHIQUE (GUI)
+═══════════════════════════════════════════════════════════════════════════════
+
+Depuis le répertoire GUI_gestion:
+   $ ./gestion_etudiants_gui.exe
+
+Ou:
+   $ gestion_etudiants_gui.exe
+
+PROCESSUS D'UTILISATION:
+   1. Une fenêtre graphique s'ouvre avec un formulaire
+   2. Remplissez les champs (Nom*, Prénom*, Classe, Matricule*, Email, Sexe)
+      (* = champs obligatoires)
+   3. Cliquez sur le bouton "Insérer"
+   4. Un message de confirmation s'affiche
+   5. Les champs se vident automatiquement
+   6. Cliquez "Quitter" pour fermer l'application
+
+REMARQUE: Ne fermez pas la fenêtre avec le bouton X (utiliser "Quitter")
+
+
+⚠️ DÉPANNAGE RAPIDE
+================================================================================
+
+ERREUR: "command not found: gcc"
+└─ SOLUTION: $ pacman -S mingw-w64-x86_64-toolchain
+
+ERREUR: "pkg-config: command not found"
+└─ SOLUTION: $ pacman -S mingw-w64-x86_64-pkg-config
+
+ERREUR: "cannot find -lgtk-3"
+└─ SOLUTION: $ pacman -S mingw-w64-x86_64-gtk3
+
+ERREUR: "gestion_etudiants_gui.exe: cannot access gtk library"
+└─ SOLUTION: Vérifier les backticks (`) dans la commande gcc
+
+ERREUR: "Etudiants.csv: permission denied"
+└─ SOLUTION: Vérifier les droits d'accès ou lancer MSYS2 en admin
+
+Le programme ne créé pas de CSV
+└─ SOLUTION: Vérifier que le répertoire existe et est accessible
+
+
+🧹 NETTOYAGE
+================================================================================
+
+Supprimer les fichiers compilés (pour recompiler à zéro):
+
+VERSION CONSOLE:
+   $ cd CMD_gestion
+   $ rm gestion_etudiants.exe
+
+VERSION GRAPHIQUE:
+   $ cd GUI_gestion
+   $ rm gestion_etudiants_gui.exe
+
+Supprimer les fichiers CSV (base de données):
+   $ rm Etudiants.csv
+   (Une nouvelle base sera créée à la prochaine exécution)
+
+Supprimer TOUS les fichiers temporaires et exécutables:
+   $ cd ..
+   $ rm CMD_gestion/gestion_etudiants.exe
+   $ rm GUI_gestion/gestion_etudiants_gui.exe
+   $ rm CMD_gestion/Etudiants.csv
+   $ rm GUI_gestion/Etudiants.csv
+
+
+📊 STRUCTURE DES DONNÉES CSV
+================================================================================
+
+Format: nom;prenom;classe;email;matricule;sex
+
+Exemple:
+   Dupont;Jean;L1;jean@example.com;MAT001;M
+   Martin;Marie;L2;marie@example.com;MAT002;F
+
+Remarques:
+   ✓ Les matricules DOIVENT être uniques
+   ✓ Les champs sont ordonnés alphabétiquement par NOM
+   ✓ Les champs contenant des ; doivent être entourés de guillemets
+   ✓ Les guillemets doubles "" représentent un guillemet
+
+
+🎯 RÉSUMÉ DES COMMANDES ESSENTIELLES
+================================================================================
+
+PREMIÈRE INSTALLATION (une seule fois):
+   1. pacman -Syu
+   2. pacman -S mingw-w64-x86_64-toolchain
+   3. pacman -S mingw-w64-x86_64-gtk3
+   4. pacman -S mingw-w64-x86_64-pkg-config
+   5. Vérifier: gcc --version et pkg-config --modversion gtk+-3.0
+
+COMPILATION CMD (rapide, pas de dépendances):
+   $ cd CMD_gestion
+   $ gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
+   $ ./gestion_etudiants.exe
+
+COMPILATION GUI (avec GTK+):
+   $ cd GUI_gestion
+   $ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+   $ ./gestion_etudiants_gui.exe
+
+
+📚 POUR PLUS D'INFORMATIONS
+================================================================================
+
+Consulter le fichier README.md complet dans le répertoire alg0_tri:
+   ✓ Description détaillée du projet
+   ✓ Architecture et algorithmes
+   ✓ Ressources utilisées
+   ✓ Procédure complète de mise en place
+
+
+================================================================================
+                       Dernière mise à jour: Décembre 2025
+================================================================================ 
