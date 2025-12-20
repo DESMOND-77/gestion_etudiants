@@ -77,7 +77,7 @@ Vérifier que tout est bien installé:
 Depuis le terminal MSYS2:
 
    # Exemple (adapter votre chemin):
-   $ cd /c/Users/DELL/Documents/USTM/DUT2-GRT/S1/Programmation_avances/projet/alg0_tri
+   $ cd /c/Users/DELL/Documents/USTM/DUT2-GRT/S1/Programmation_avances/projet/gestion_etudiants
 
    # Vérifier que vous êtes au bon endroit:
    $ ls
@@ -263,7 +263,7 @@ COMPILATION GUI (avec GTK+):
 📚 POUR PLUS D'INFORMATIONS
 ================================================================================
 
-Consulter le fichier README.md complet dans le répertoire alg0_tri:
+Consulter le fichier README.md complet dans le répertoire gestion_etudiants:
    ✓ Description détaillée du projet
    ✓ Architecture et algorithmes
    ✓ Ressources utilisées
@@ -273,3 +273,4 @@ Consulter le fichier README.md complet dans le répertoire alg0_tri:
 ================================================================================
                        Dernière mise à jour: Décembre 2025
 ================================================================================ 
+
