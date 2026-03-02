@@ -1,25 +1,28 @@
 # 📚 Système de Gestion des Étudiants (Student Management System)
 
 ## 📋 Table des matières
-1. [Description du projet](#description-du-projet)
-2. [Structure du projet](#structure-du-projet)
-3. [Ressources utilisées](#ressources-utilisées)
-4. [Prérequis système](#prérequis-système)
-5. [Mise en place de l'environnement](#mise-en-place-de-lenvironnement)
-6. [Compilation et exécution](#compilation-et-exécution)
-7. [Utilisation](#utilisation)
-8. [Architecture et algorithmes](#architecture-et-algorithmes)
+
+1. [Description du projet](#-description-du-projet)
+2. [Structure du projet](#-structure-du-projet)
+3. [Ressources utilisées](#-ressources-utilisées)
+4. [Prérequis système](#-prérequis-système)
+5. [Mise en place de l'environnement](#-mise-en-place-de-lenvironnement)
+6. [Compilation et exécution](#-compilation-et-exécution)
+7. [Utilisation](#-utilisation)
+8. [Architecture et algorithmes](#-architecture-et-algorithmes)
 
 ---
 
 ## 🎯 Description du projet
 
 ### Objectif général
+
 Ce projet implémente un **système complet de gestion d'étudiants** en C, offrant deux interfaces différentes :
 - **Version Console (CMD)** : Interface en ligne de commande avec support des couleurs ANSI
 - **Version Graphique (GUI)** : Interface graphique utilisant la bibliothèque GTK+ 3.0
 
 ### Fonctionnalités principales
+
 ✅ **Insertion d'étudiants triés** - Les étudiants sont automatiquement insérés en ordre alphabétique par nom  
 ✅ **Gestion des fichiers CSV** - Sauvegarde persistante dans un fichier CSV  
 ✅ **Validation des données** - Vérification des doublons (matricule unique)  
@@ -29,6 +32,7 @@ Ce projet implémente un **système complet de gestion d'étudiants** en C, offr
 ✅ **Interface graphique** (GUI) - Formulaire intuitif avec boîtes de dialogue  
 
 ### Données gérées par étudiant
+
 - **Nom** (obligatoire)
 - **Prénom** (obligatoire)
 - **Classe** (optionnel)
@@ -40,8 +44,8 @@ Ce projet implémente un **système complet de gestion d'étudiants** en C, offr
 
 ## 📁 Structure du projet
 
-```
-alg0_tri/
+```python
+gestion_etudiants/
 ├── 📝 README.md                         # Ce fichier
 ├── 📄 help.txt                          # Guide d'installation rapide
 ├── 📄 test.c                            # Fichier de test
@@ -72,6 +76,7 @@ alg0_tri/
 ## 🔧 Ressources utilisées
 
 ### Langages et outils
+
 - **Langage C** - C99 (GNU C)
 - **Compilateur** - GCC (MinGW-w64 sur Windows via MSYS2)
 - **Système de gestion de paquets** - MSYS2 Pacman
@@ -80,10 +85,12 @@ alg0_tri/
 ### Bibliothèques utilisées
 
 #### Version Console
+
 - **libc** - Bibliothèque standard C (stdio, stdlib, string.h)
 - Standard ANSI C pour I/O et manipulation de chaînes
 
 #### Version Graphique
+
 - **GTK+ 3.0** - Bibliothèque graphique
   - `libgtk-3-0` - Noyau de GTK+
   - `libgdk-3-0` - Abstraction des opérations graphiques
@@ -92,6 +99,7 @@ alg0_tri/
   - Support CSS pour la personnalisation
 
 ### Formats de données
+
 - **CSV** (Comma-Separated Values / Semicolon-Separated Values)
   - Délimiteur: `;` (point-virgule)
   - Format: `nom;prenom;classe;email;matricule;sex`
@@ -102,16 +110,19 @@ alg0_tri/
 ## 💻 Prérequis système
 
 ### Système d'exploitation
+
 - **Windows 10 ou supérieur** (avec MSYS2 installé)
 - **Linux** (Debian/Ubuntu, Fedora, Arch, openSUSE, etc.)
 - macOS (adaptation possible des commandes de compilation)
 
 ### Ressources minimales
+
 - **Disque** : ~200 MB pour MSYS2 et GTK+
 - **RAM** : 512 MB minimum
 - **Processeur** : Processeur 64-bit recommandé
 
 ### Logiciels préalables
+
 1. **MSYS2** installé et configuré
 2. **GCC** et toolchain MinGW-w64
 3. **pkg-config** pour la gestion des drapeaux de compilation
@@ -123,7 +134,7 @@ alg0_tri/
 ### Étape 1: Installer MSYS2
 
 1. **Télécharger MSYS2**
-   - Visitez https://www.msys2.org/
+   - Visitez <https://www.msys2.org/>
    - Téléchargez l'installateur 64-bit (`msys2-x86_64-20240113.exe` ou similaire)
 
 2. **Lancer l'installation**
@@ -315,6 +326,7 @@ gcc -Wall -Wextra -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c foncti
 ```
 
 **Explication des options gcc:**
+
 - `-o gestion_etudiants` : Nom du fichier exécutable (sans .exe sur Linux)
 - `-Wall -Wextra` : Afficher tous les avertissements (optionnel mais recommandé)
 - `-g` : Inclure les informations de débogage (optionnel)
@@ -343,7 +355,8 @@ chmod +x gestion_etudiants
 Le programme affichera un menu de bienvenue et vous demandera les informations de l'étudiant.
 
 #### Processus d'utilisation (CMD)
-```
+
+```text
 1. Affichage du nombre d'étudiants existants
 2. Saisie des informations du nouvel étudiant
 3. Vérification de l'unicité du matricule
@@ -389,6 +402,7 @@ gcc -Wall -Wextra -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `
 ```
 
 **Explication:**
+
 - ``pkg-config --cflags gtk+-3.0`` : Inclut les chemins d'en-têtes GTK+
 - ``pkg-config --libs gtk+-3.0`` : Inclut les bibliothèques à lier
 - Les backticks (`) exécutent la commande et insèrent le résultat
@@ -418,11 +432,13 @@ Une fenêtre GTK+ s'ouvrira avec un formulaire de saisie.
 
 **Note importante pour les environnements sans écran (serveur):**
 Si vous exécutez sur un serveur sans interface graphique, vous pouvez:
+
 - Utiliser uniquement la version Console
 - Ou installer un serveur X virtuel comme Xvfb: `sudo apt install xvfb` puis `xvfb-run ./gestion_etudiants_gui`
 
 #### Processus d'utilisation (GUI)
-```
+
+```text
 1. Une fenêtre graphique s'ouvre avec 6 champs de texte
 2. Remplissez les champs (Nom, Prénom, Classe, Matricule, Email, Sexe)
 3. Cliquez sur le bouton "Insérer"
@@ -440,31 +456,34 @@ Si vous exécutez sur un serveur sans interface graphique, vous pouvez:
 Le fichier `Etudiants.csv` est stocké dans le même répertoire que l'exécutable.
 
 **Format attendu:**
-```
+
+```csv
 nom;prenom;classe;email;matricule;sex
 Dupont;Jean;L1;jean@example.com;MAT001;M
 Martin;Marie;L1;marie@example.com;MAT002;F
 ```
 
 **Gestion des guillemets:**
+
 - Les champs contenant `;` doivent être entourés de guillemets: `"Nom;Particule";Prenom;...`
 - Les guillemets doubles sont échappés par `""`: `"Nom ""Alias""";...`
 
 ### Limites
+
 - **Nombre maximum d'étudiants**: 1000 (MAX_STUD)
 - **Longueur maximale d'un champ**: 128 caractères (MAX_CHAMP)
 - **Longueur maximale d'une ligne CSV**: 512 caractères (MAX_LIGNE)
 
 ### Exemple d'utilisation (CMD)
 
-```
+```bash
 ##########################################################################
-##                                           ##
-##   Bienvenue dans le programme de gestion des etudiants.        ##
-##                                           ##
+##                                                                      ##
+##   Bienvenue dans le programme de gestion des etudiants.              ##
+##                                                                      ##
 ##########################################################################
-||                                           ||
-||  Nombre d'etudiants actuellement dans "test.csv" : 5       ||
+||                                                                      ||
+||  Nombre d'etudiants actuellement dans "test.csv" : 5                 ||
 ==========================================================================
 
 Saisis des infos de l'etudiant(e):
@@ -478,10 +497,10 @@ Saisis des infos de l'etudiant(e):
 
 Etudiant(e) insere(e) en position 3 et fichier mis à jour (test.csv).
 
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@                                   @@
-@@   Programme terminer !!!.         @@
-@@                                   @@
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@@                                    @@
+@@   Programme terminer !!!.          @@
+@@                                    @@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 ```
 
@@ -505,24 +524,27 @@ typedef struct {
 ### Algorithmes implémentés
 
 #### 1. **Recherche binaire** (`cher_pos_ins`)
+
 - **Complexité**: O(log n)
 - **Objectif**: Trouver la position d'insertion pour maintenir le tri alphabétique
-- **Retour**: 
+- **Retour**:
   - Indice si l'élément existe
   - Position d'insertion sinon (entre 0 et n)
 
-```
+```algobox
 Exemple avec noms: ["Alice", "Bob", "David"]
 - Insérer "Charles" → position 2
 - Tableau devient: ["Alice", "Bob", "Charles", "David"]
 ```
 
 #### 2. **Recherche linéaire** (Détection de doublon)
+
 - **Complexité**: O(n)
 - **Objectif**: Vérifier que le matricule n'existe pas déjà
 - **Retour**: Position du doublon ou -1 si absent
 
 #### 3. **Insertion triée avec décalage**
+
 - **Complexité**: O(n) dans le pire cas
 - **Processus**:
   1. Décaler tous les éléments à droite de la position
@@ -530,6 +552,7 @@ Exemple avec noms: ["Alice", "Bob", "David"]
   3. Incrémenter le compteur
 
 #### 4. **Parsage CSV avec guillemets**
+
 - **Complexité**: O(m) où m = longueur de la ligne
 - **Gestion**:
   - Champs simples: séparés par `;`
@@ -538,7 +561,7 @@ Exemple avec noms: ["Alice", "Bob", "David"]
 
 ### Flux de données
 
-```
+```flow
 [Fichier CSV] 
     ↓
 [lire_csv()] → Tableau d'Etudiants en mémoire
@@ -557,6 +580,7 @@ Exemple avec noms: ["Alice", "Bob", "David"]
 ### Gestion des couleurs (CMD)
 
 Les codes ANSI utilisés (définis dans `couleurs.h`):
+
 - `\033[31m` - Rouge (erreur)
 - `\033[32m` - Vert (succès)
 - `\033[33m` - Jaune (titres)
@@ -568,87 +592,108 @@ Les codes ANSI utilisés (définis dans `couleurs.h`):
 ## 🐛 Dépannage
 
 ### Erreur: "pkg-config: command not found"
+
 **Solution (Windows):**
+
 ```bash
 pacman -S mingw-w64-x86_64-pkg-config
 ```
 
 **Solution (Linux - Debian/Ubuntu):**
+
 ```bash
 sudo apt install pkg-config
 ```
 
 **Solution (Linux - Fedora):**
+
 ```bash
 sudo dnf install pkg-config
 ```
 
 **Solution (Linux - Arch):**
+
 ```bash
 sudo pacman -S pkg-config
 ```
 
 ### Erreur: "cannot find -lgtk-3"
+
 **Solution (Windows):**
+
 ```bash
 pacman -S mingw-w64-x86_64-gtk3
 # Puis relancer la compilation avec les backticks corrects
 ```
 
 **Solution (Linux - Debian/Ubuntu):**
+
 ```bash
 sudo apt install libgtk-3-dev
 ```
 
 **Solution (Linux - Fedora):**
+
 ```bash
 sudo dnf install gtk3-devel
 ```
 
 **Solution (Linux - Arch):**
+
 ```bash
 sudo pacman -S gtk3
 ```
 
 ### Erreur: "undefined reference to `gtk_*'"
+
 **Cause**: Les drapeaux GTK+ ne sont pas correctement inclus
 **Solution**: Vérifier la commande de compilation avec backticks
 
 ### Erreur: "gcc: command not found"
+
 **Solution (Linux - Debian/Ubuntu):**
+
 ```bash
 sudo apt install gcc
 ```
 
 **Solution (Linux - Fedora):**
+
 ```bash
 sudo dnf install gcc
 ```
 
 **Solution (Linux - Arch):**
+
 ```bash
 sudo pacman -S gcc
 ```
 
 ### Le fichier CSV n'est pas créé
+
 **Cause**: Le programme n'a pas la permission d'écrire
 **Solution**: Vérifier les droits d'accès du répertoire ou lancer en tant qu'administrateur
 
 ### Interface GTK+ ne s'affiche pas
+
 **Cause**: Variable d'affichage non définie (rare sur Windows)
 **Solution**: Relancer le programme ou installer un serveur X si sur WSL
 
 ### Erreur: "Permission denied" lors de l'exécution
+
 **Cause**: Le fichier compilé n'a pas les droits d'exécution
 **Solution (Linux):**
+
 ```bash
 chmod +x gestion_etudiants
 chmod +x gestion_etudiants_gui
 ```
 
 ### Erreur: Cannot open display (serveur sans interface graphique)
+
 **Cause**: Pas de serveur X disponible
 **Solution**: Installer Xvfb pour les environnements sans écran
+
 ```bash
 # Debian/Ubuntu
 sudo apt install xvfb
@@ -664,7 +709,7 @@ xvfb-run ./gestion_etudiants_gui
 ## 📝 Fichiers importants
 
 | Fichier | Description |
-|---------|-------------|
+| --------- | ------------- |
 | `CMD_gestion_etudiants.c` | Programme principal console |
 | `GUI_gestion_etudiants.c` | Programme principal GTK+ |
 | `fonctions.c` | Implémentation des opérations (CSV, recherche, etc.) |
@@ -692,9 +737,11 @@ xvfb-run ./gestion_etudiants_gui
 ---
 
 ## 👥 Auteur(s)
+
 **Développement dans le cadre du cours de Programmation Avancée - USTM DUT2-GRT**
 
 ## 📄 Licence
+
 Projet académique - Libre d'utilisation à titre éducatif
 
 ---
@@ -702,6 +749,7 @@ Projet académique - Libre d'utilisation à titre éducatif
 ## 📞 Support
 
 Pour toute question ou problème:
+
 1. Vérifier le fichier [help.txt](help.txt)
 2. Consulter les commentaires détaillés dans le code source
 3. Vérifier que l'environnement MSYS2 est correctement configuré
@@ -709,4 +757,3 @@ Pour toute question ou problème:
 ---
 
 **Dernière mise à jour**: Décembre 2025
-

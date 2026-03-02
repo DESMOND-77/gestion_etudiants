@@ -291,6 +291,6 @@ Consulter le fichier README.md complet dans le répertoire gestion_etudiants:
 
 
 ================================================================================
-                       Dernière mise à jour: Décembre 2025
+                       Dernière mise à jour: Mars 2026
 ================================================================================ 
 
