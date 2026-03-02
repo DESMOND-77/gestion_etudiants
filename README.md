@@ -103,7 +103,8 @@ alg0_tri/
 
 ### Système d'exploitation
 - **Windows 10 ou supérieur** (avec MSYS2 installé)
-- Linux/macOS (adaptation possible des commandes de compilation)
+- **Linux** (Debian/Ubuntu, Fedora, Arch, openSUSE, etc.)
+- macOS (adaptation possible des commandes de compilation)
 
 ### Ressources minimales
 - **Disque** : ~200 MB pour MSYS2 et GTK+
@@ -186,16 +187,108 @@ pkg-config --list-all | grep gtk
 # Doit afficher: gtk+-3.0 ...
 
 # Naviguer vers le répertoire du projet
-cd /c/Users/DELL/Documents/USTM/DUT2-GRT/S1/Programmation_avances/projet/alg0_tri
+cd c:/Users/votre_nom_utilisateur/chemin/vers/gestion_etudiants
+```
+
+---
+
+### 🐧 Configuration pour Linux
+
+Cette section détaille l'installation des outils nécessaires pour compiler et exécuter le projet sur un système Linux.
+
+#### Option A: Distributions basées sur Debian/Ubuntu
+
+```bash
+# Mettre à jour la liste des paquets
+sudo apt update
+
+# Installer le compilateur GCC
+sudo apt install gcc
+
+# Installer pkg-config
+sudo apt install pkg-config
+
+# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
+sudo apt install libgtk-3-dev
+
+# Vérifier l'installation
+gcc --version
+pkg-config --modversion gtk+-3.0
+```
+
+#### Option B: Distributions basées sur Fedora/RHEL/CentOS
+
+```bash
+# Installer le compilateur GCC
+sudo dnf install gcc
+
+# Installer pkg-config
+sudo dnf install pkg-config
+
+# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
+sudo dnf install gtk3-devel
+
+# Vérifier l'installation
+gcc --version
+pkg-config --modversion gtk+-3.0
+```
+
+#### Option C: Distributions basées sur Arch Linux
+
+```bash
+# Installer le compilateur GCC
+sudo pacman -S gcc
+
+# Installer pkg-config
+sudo pacman -S pkg-config
+
+# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
+sudo pacman -S gtk3
+
+# Vérifier l'installation
+gcc --version
+pkg-config --modversion gtk+-3.0
+```
+
+#### Option D: Distributions basées sur openSUSE
+
+```bash
+# Installer le compilateur GCC
+sudo zypper install gcc
+
+# Installer pkg-config
+sudo zypper install pkg-config
+
+# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
+sudo zypper install gtk3-devel
+
+# Vérifier l'installation
+gcc --version
+pkg-config --modversion gtk+-3.0
+```
+
+#### Navigation vers le répertoire du projet (Linux)
+
+```bash
+# Naviguer vers le répertoire du projet
+cd /home/votre_nom_utilisateur/chemin/vers/gestion_etudiants
+
+# Vérifier que vous êtes au bon endroit
+ls
+# Doit afficher: CMD_gestion/  GUI_gestion/  README.md  help.txt
 ```
 
 ---
 
 ## 🔨 Compilation et exécution
 
+### ⚠️ Note importante pour Linux
+
+Sur Linux, les exécutables n'ont pas besoin de l'extension `.exe`. Utilisez simplement `gestion_etudiants` au lieu de `gestion_etudiants.exe`.
+
 ### Version Console (CMD)
 
-#### Compilation
+#### Compilation (Windows)
 
 ```bash
 # Naviguer vers le répertoire CMD_gestion
@@ -208,12 +301,25 @@ gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
 gcc -Wall -g -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
 ```
 
+#### Compilation (Linux)
+
+```bash
+# Naviguer vers le répertoire CMD_gestion
+cd CMD_gestion
+
+# Compiler tous les fichiers ensemble (sans extension .exe)
+gcc -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c fonctions.c
+
+# Ou avec options complètes (recommandé)
+gcc -Wall -Wextra -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c fonctions.c
+```
+
 **Explication des options gcc:**
-- `-o gestion_etudiants.exe` : Nom du fichier exécutable
-- `-Wall` : Afficher tous les avertissements (optionnel mais recommandé)
+- `-o gestion_etudiants` : Nom du fichier exécutable (sans .exe sur Linux)
+- `-Wall -Wextra` : Afficher tous les avertissements (optionnel mais recommandé)
 - `-g` : Inclure les informations de débogage (optionnel)
 
-#### Exécution
+#### Exécution (Windows)
 
 ```bash
 # Lancer le programme
@@ -221,6 +327,17 @@ gcc -Wall -g -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctio
 
 # Ou directement
 gestion_etudiants.exe
+```
+
+#### Exécution (Linux)
+
+```bash
+# Lancer le programme
+./gestion_etudiants
+
+# Si le fichier n'est pas exécutable, rendez-le exécutable
+chmod +x gestion_etudiants
+./gestion_etudiants
 ```
 
 Le programme affichera un menu de bienvenue et vous demandera les informations de l'étudiant.
@@ -238,7 +355,7 @@ Le programme affichera un menu de bienvenue et vous demandera les informations d
 
 ### Version Graphique (GUI)
 
-#### Compilation
+#### Compilation (Windows)
 
 ```bash
 # Naviguer vers le répertoire GUI_gestion
@@ -253,12 +370,30 @@ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c \
 gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
 ```
 
+#### Compilation (Linux)
+
+```bash
+# Naviguer vers le répertoire GUI_gestion
+cd GUI_gestion
+
+# Compiler avec GTK+ 3.0 (sans extension .exe)
+gcc -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c \
+    `pkg-config --cflags gtk+-3.0` \
+    `pkg-config --libs gtk+-3.0`
+
+# Ou sur une seule ligne
+gcc -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+
+# Avec options supplémentaires (recommandé)
+gcc -Wall -Wextra -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+```
+
 **Explication:**
 - ``pkg-config --cflags gtk+-3.0`` : Inclut les chemins d'en-têtes GTK+
 - ``pkg-config --libs gtk+-3.0`` : Inclut les bibliothèques à lier
 - Les backticks (`) exécutent la commande et insèrent le résultat
 
-#### Exécution
+#### Exécution (Windows)
 
 ```bash
 # Lancer le programme GUI
@@ -268,7 +403,23 @@ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config
 gestion_etudiants_gui.exe
 ```
 
+#### Exécution (Linux)
+
+```bash
+# Lancer le programme GUI
+./gestion_etudiants_gui
+
+# Si le fichier n'est pas exécutable, rendez-le exécutable
+chmod +x gestion_etudiants_gui
+./gestion_etudiants_gui
+```
+
 Une fenêtre GTK+ s'ouvrira avec un formulaire de saisie.
+
+**Note importante pour les environnements sans écran (serveur):**
+Si vous exécutez sur un serveur sans interface graphique, vous pouvez:
+- Utiliser uniquement la version Console
+- Ou installer un serveur X virtuel comme Xvfb: `sudo apt install xvfb` puis `xvfb-run ./gestion_etudiants_gui`
 
 #### Processus d'utilisation (GUI)
 ```
@@ -417,21 +568,67 @@ Les codes ANSI utilisés (définis dans `couleurs.h`):
 ## 🐛 Dépannage
 
 ### Erreur: "pkg-config: command not found"
-**Solution:**
+**Solution (Windows):**
 ```bash
 pacman -S mingw-w64-x86_64-pkg-config
 ```
 
+**Solution (Linux - Debian/Ubuntu):**
+```bash
+sudo apt install pkg-config
+```
+
+**Solution (Linux - Fedora):**
+```bash
+sudo dnf install pkg-config
+```
+
+**Solution (Linux - Arch):**
+```bash
+sudo pacman -S pkg-config
+```
+
 ### Erreur: "cannot find -lgtk-3"
-**Solution:**
+**Solution (Windows):**
 ```bash
 pacman -S mingw-w64-x86_64-gtk3
 # Puis relancer la compilation avec les backticks corrects
 ```
 
+**Solution (Linux - Debian/Ubuntu):**
+```bash
+sudo apt install libgtk-3-dev
+```
+
+**Solution (Linux - Fedora):**
+```bash
+sudo dnf install gtk3-devel
+```
+
+**Solution (Linux - Arch):**
+```bash
+sudo pacman -S gtk3
+```
+
 ### Erreur: "undefined reference to `gtk_*'"
 **Cause**: Les drapeaux GTK+ ne sont pas correctement inclus
 **Solution**: Vérifier la commande de compilation avec backticks
+
+### Erreur: "gcc: command not found"
+**Solution (Linux - Debian/Ubuntu):**
+```bash
+sudo apt install gcc
+```
+
+**Solution (Linux - Fedora):**
+```bash
+sudo dnf install gcc
+```
+
+**Solution (Linux - Arch):**
+```bash
+sudo pacman -S gcc
+```
 
 ### Le fichier CSV n'est pas créé
 **Cause**: Le programme n'a pas la permission d'écrire
@@ -440,6 +637,27 @@ pacman -S mingw-w64-x86_64-gtk3
 ### Interface GTK+ ne s'affiche pas
 **Cause**: Variable d'affichage non définie (rare sur Windows)
 **Solution**: Relancer le programme ou installer un serveur X si sur WSL
+
+### Erreur: "Permission denied" lors de l'exécution
+**Cause**: Le fichier compilé n'a pas les droits d'exécution
+**Solution (Linux):**
+```bash
+chmod +x gestion_etudiants
+chmod +x gestion_etudiants_gui
+```
+
+### Erreur: Cannot open display (serveur sans interface graphique)
+**Cause**: Pas de serveur X disponible
+**Solution**: Installer Xvfb pour les environnements sans écran
+```bash
+# Debian/Ubuntu
+sudo apt install xvfb
+xvfb-run ./gestion_etudiants_gui
+
+# Fedora
+sudo dnf install xorg-x11-server-Xvfb
+xvfb-run ./gestion_etudiants_gui
+```
 
 ---
 

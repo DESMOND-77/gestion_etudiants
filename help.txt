@@ -10,6 +10,9 @@
 ✓ Ouvrir le terminal MSYS2 MinGW 64-bit
 ✓ Naviguer vers le répertoire du projet
 
+⚠️ POUR LINUX: Ces logiciels sont généralement préinstallés ou disponibles
+   via le gestionnaire de paquets de votre distribution
+
 
 📦 ÉTAPE 1: METTRE À JOUR MSYS2
 ================================================================================
@@ -180,22 +183,28 @@ REMARQUE: Ne fermez pas la fenêtre avec le bouton X (utiliser "Quitter")
 ================================================================================
 
 ERREUR: "command not found: gcc"
-└─ SOLUTION: $ pacman -S mingw-w64-x86_64-toolchain
+└─ WINDOWS: pacman -S mingw-w64-x86_64-toolchain
+└─ LINUX: sudo apt install gcc
 
 ERREUR: "pkg-config: command not found"
-└─ SOLUTION: $ pacman -S mingw-w64-x86_64-pkg-config
+└─ WINDOWS: pacman -S mingw-w64-x86_64-pkg-config
+└─ LINUX: sudo apt install pkg-config
 
 ERREUR: "cannot find -lgtk-3"
-└─ SOLUTION: $ pacman -S mingw-w64-x86_64-gtk3
+└─ WINDOWS: pacman -S mingw-w64-x86_64-gtk3
+└─ LINUX: sudo apt install libgtk-3-dev
 
 ERREUR: "gestion_etudiants_gui.exe: cannot access gtk library"
 └─ SOLUTION: Vérifier les backticks (`) dans la commande gcc
 
 ERREUR: "Etudiants.csv: permission denied"
-└─ SOLUTION: Vérifier les droits d'accès ou lancer MSYS2 en admin
+└─ SOLUTION: Vérifier les droits d'accès ou lancer en admin
 
 Le programme ne créé pas de CSV
 └─ SOLUTION: Vérifier que le répertoire existe et est accessible
+
+ERREUR: "Permission denied" (Linux - exécuter)
+└─ SOLUTION: chmod +x gestion_etudiants
 
 
 🧹 NETTOYAGE
@@ -242,22 +251,33 @@ Remarques:
 🎯 RÉSUMÉ DES COMMANDES ESSENTIELLES
 ================================================================================
 
-PREMIÈRE INSTALLATION (une seule fois):
+PREMIÈRE INSTALLATION (une seule fois) - WINDOWS:
    1. pacman -Syu
    2. pacman -S mingw-w64-x86_64-toolchain
    3. pacman -S mingw-w64-x86_64-gtk3
    4. pacman -S mingw-w64-x86_64-pkg-config
    5. Vérifier: gcc --version et pkg-config --modversion gtk+-3.0
 
+PREMIÈRE INSTALLATION (une seule fois) - LINUX (Debian/Ubuntu):
+   1. sudo apt update
+   2. sudo apt install gcc pkg-config libgtk-3-dev
+   3. Vérifier: gcc --version et pkg-config --modversion gtk+-3.0
+
 COMPILATION CMD (rapide, pas de dépendances):
    $ cd CMD_gestion
+   # Windows:
    $ gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
-   $ ./gestion_etudiants.exe
+   # Linux:
+   $ gcc -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c fonctions.c
+   $ ./gestion_etudiants
 
 COMPILATION GUI (avec GTK+):
    $ cd GUI_gestion
+   # Windows:
    $ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-   $ ./gestion_etudiants_gui.exe
+   # Linux:
+   $ gcc -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+   $ ./gestion_etudiants_gui
 
 
 📚 POUR PLUS D'INFORMATIONS
