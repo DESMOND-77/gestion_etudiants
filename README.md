@@ -1,15 +1,19 @@
-# 📚 Système de Gestion des Étudiants (Student Management System)
+# Système de Gestion des Étudiants (Student Management System)
 
-## 📋 Table des matières
+## Table des matières
 
 1. [Description du projet](#-description-du-projet)
 2. [Structure du projet](#-structure-du-projet)
 3. [Ressources utilisées](#-ressources-utilisées)
 4. [Prérequis système](#-prérequis-système)
 5. [Mise en place de l'environnement](#-mise-en-place-de-lenvironnement)
-6. [Compilation et exécution](#-compilation-et-exécution)
-7. [Utilisation](#-utilisation)
-8. [Architecture et algorithmes](#-architecture-et-algorithmes)
+6. [Choix techniques](#-choix-techniques)
+7. [Sécurité et Robustesse](#-sécurité-et-Robustesse)
+8. [Compilation et exécution](#-compilation-et-exécution)
+9. [Utilisation](#-utilisation)
+10. [Architecture et algorithmes](#-architecture-et-algorithmes)
+11. [Dépannage](#-dépannage)
+12. [Fichiers importants](#-fichiers-importants)
 
 ---
 
@@ -17,19 +21,23 @@
 
 ### Objectif général
 
-Ce projet implémente un **système complet de gestion d'étudiants** en C, offrant deux interfaces différentes :
-- **Version Console (CMD)** : Interface en ligne de commande avec support des couleurs ANSI
+Ce projet implémente un système complet de gestion d'étudiantsen C, offrant deux interfaces différentes :
+
+- **Version Console (CMD)** :
+
+Interface en ligne de commande avec support des couleurs ANSI
+
 - **Version Graphique (GUI)** : Interface graphique utilisant la bibliothèque GTK+ 3.0
 
 ### Fonctionnalités principales
 
-✅ **Insertion d'étudiants triés** - Les étudiants sont automatiquement insérés en ordre alphabétique par nom  
-✅ **Gestion des fichiers CSV** - Sauvegarde persistante dans un fichier CSV  
-✅ **Validation des données** - Vérification des doublons (matricule unique)  
-✅ **Recherche binaire** - O(log n) pour trouver la position d'insertion optimale  
-✅ **Gestion des erreurs** - Messages d'erreur détaillés et codes d'erreur appropriés  
-✅ **Interface colorée** (CMD) - Utilisation des codes d'échappement ANSI pour la lisibilité  
-✅ **Interface graphique** (GUI) - Formulaire intuitif avec boîtes de dialogue  
+- [x] **Insertion d'étudiants triés** - Les étudiants sont automatiquement insérés en ordre alphabétique par nom  
+- [x] **Gestion des fichiers CSV** - Sauvegarde persistante dans un fichier CSV  
+- [x] **Validation des données** - Vérification des doublons (matricule unique)  
+- [x] **Recherche binaire** - O(log n) pour trouver la position d'insertion optimale  
+- [x] **Gestion des erreurs** - Messages d'erreur détaillés et codes d'erreur appropriés  
+- [x] **Interface colorée** (CMD) - Utilisation des codes d'échappement ANSI pour la lisibilité  
+- [x] **Interface graphique** (GUI) - Formulaire intuitif avec boîtes de dialogue  
 
 ### Données gérées par étudiant
 
@@ -291,7 +299,67 @@ ls
 
 ---
 
+## ⚙️ Choix Techniques
+
+### 📄 Pourquoi CSV ?
+
+- Format simple et portable
+- Pas de dépendances externes
+- Facilement éditable
+- Suffisant pour un projet académique
+
+### 🔎 Pourquoi Recherche Binaire ?
+
+- Complexité : **O(log n)**
+- Maintien du tri automatique
+- Optimisation des performances
+
+### 🖥 Pourquoi GTK+ 3 ?
+
+- Bibliothèque mature
+- Portable (Windows / Linux)
+- Support CSS intégré
+
+---
+
+## 📊 Complexité Algorithmique
+
+| Fonction | Complexité |
+| ---------- | ------------ |
+| Recherche binaire | O(log n) |
+| Vérification doublon | O(n) |
+| Insertion triée | O(n) |
+| Parsing CSV | O(m) |
+
+---
+
+## 🔐 Sécurité & Robustesse
+
+- ✔ Limitation taille buffers (`MAX_CHAMP`)
+- ✔ Protection contre overflow
+- ✔ Vérification des fichiers (`NULL`)
+- ✔ Validation des entrées utilisateur
+- ✔ Gestion des erreurs système
+- ✔ Messages d'erreurs explicites
+
+---
+
 ## 🔨 Compilation et exécution
+
+### Utilisation de Makefile (recommandé)
+
+Si un fichier `Makefile` est présent dans le répertoire racine, vous pouvez compiler facilement :
+
+```bash
+# Compiler la version Console
+make cmd
+
+# Compiler la version Graphique
+make gui
+
+# Nettoyer les fichiers compilés
+make clean
+```
 
 ### ⚠️ Note importante pour Linux
 
@@ -299,7 +367,7 @@ Sur Linux, les exécutables n'ont pas besoin de l'extension `.exe`. Utilisez sim
 
 ### Version Console (CMD)
 
-#### Compilation (Windows)
+#### Compilation-cmd (Windows)
 
 ```bash
 # Naviguer vers le répertoire CMD_gestion
@@ -312,7 +380,7 @@ gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
 gcc -Wall -g -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
 ```
 
-#### Compilation (Linux)
+#### Compilation-cmd (Linux)
 
 ```bash
 # Naviguer vers le répertoire CMD_gestion
@@ -331,7 +399,7 @@ gcc -Wall -Wextra -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c foncti
 - `-Wall -Wextra` : Afficher tous les avertissements (optionnel mais recommandé)
 - `-g` : Inclure les informations de débogage (optionnel)
 
-#### Exécution (Windows)
+#### Exécution-cmd (Windows)
 
 ```bash
 # Lancer le programme
@@ -341,7 +409,7 @@ gcc -Wall -Wextra -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c foncti
 gestion_etudiants.exe
 ```
 
-#### Exécution (Linux)
+#### Exécution-cmd (Linux)
 
 ```bash
 # Lancer le programme
@@ -375,12 +443,12 @@ Le programme affichera un menu de bienvenue et vous demandera les informations d
 cd GUI_gestion
 
 # Compiler avec GTK+ 3.0
-gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c \
+gcc -o GUI_gestion_etudiants.exe GUI_gestion_etudiants.c fonctions.c \
     `pkg-config --cflags gtk+-3.0` \
     `pkg-config --libs gtk+-3.0`
 
 # Ou sur une seule ligne
-gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+gcc -o GUI_gestion_etudiants.exe GUI_gestion_etudiants.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
 ```
 
 #### Compilation (Linux)
@@ -390,15 +458,15 @@ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config
 cd GUI_gestion
 
 # Compiler avec GTK+ 3.0 (sans extension .exe)
-gcc -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c \
+gcc -o GUI_gestion_etudiants GUI_gestion_etudiants.c fonctions.c \
     `pkg-config --cflags gtk+-3.0` \
     `pkg-config --libs gtk+-3.0`
 
 # Ou sur une seule ligne
-gcc -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+gcc -o GUI_gestion_etudiants GUI_gestion_etudiants.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
 
 # Avec options supplémentaires (recommandé)
-gcc -Wall -Wextra -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
+gcc -Wall -Wextra -o GUI_gestion_etudiants GUI_gestion_etudiants.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
 ```
 
 **Explication:**
@@ -411,21 +479,18 @@ gcc -Wall -Wextra -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `
 
 ```bash
 # Lancer le programme GUI
-./gestion_etudiants_gui.exe
-
-# Ou directement
-gestion_etudiants_gui.exe
+./GUI_gestion_etudiants.exe
 ```
 
 #### Exécution (Linux)
 
 ```bash
 # Lancer le programme GUI
-./gestion_etudiants_gui
+./GUI_gestion_etudiants
 
 # Si le fichier n'est pas exécutable, rendez-le exécutable
 chmod +x gestion_etudiants_gui
-./gestion_etudiants_gui
+./GUI_gestion_etudiants
 ```
 
 Une fenêtre GTK+ s'ouvrira avec un formulaire de saisie.
@@ -445,6 +510,34 @@ Si vous exécutez sur un serveur sans interface graphique, vous pouvez:
 4. Un message de confirmation/erreur s'affiche
 5. Les champs se vident automatiquement en cas de succès
 6. Cliquez sur "Quitter" pour fermer l'application
+```
+
+---
+
+## 🏗️ Architecture Modulaire
+
+Voici la structure modulaire du projet:
+
+```text
+                ┌───────────────────┐
+                │    Interface      │
+                │  (CMD / GUI)      │
+                └─────────┬─────────┘
+                          ↓
+                ┌───────────────────┐
+                │  Logique Métier   │
+                │  (Insertion,      │
+                │   Recherche)      │
+                └─────────┬─────────┘
+                          ↓
+                ┌───────────────────┐
+                │ Gestion CSV       │
+                │ Lecture / Écriture│
+                └─────────┬─────────┘
+                          ↓
+                ┌───────────────────┐
+                │ Structure Etudiant│
+                └───────────────────┘
 ```
 
 ---
@@ -587,6 +680,15 @@ Les codes ANSI utilisés (définis dans `couleurs.h`):
 - `\033[34m` - Bleu (flèches)
 - `\033[0m` - Réinitialiser (défaut)
 
+### 📊 Complexité Algorithmique
+
+| Fonction | Complexité |
+| ---------- | ------------ |
+| Recherche binaire | O(log n) |
+| Vérification doublon | O(n) |
+| Insertion triée | O(n) |
+| Parsing CSV | O(m) |
+
 ---
 
 ## 🐛 Dépannage
@@ -722,6 +824,11 @@ xvfb-run ./gestion_etudiants_gui
 
 ---
 
+### Apercu
+
+![Interface GUI](images/gui.png)
+![Version Console](images/cmd.png)
+
 ## 📚 Améliorations futures possibles
 
 - [ ] Interface web avec HTML/CSS/JavaScript
@@ -736,13 +843,24 @@ xvfb-run ./gestion_etudiants_gui
 
 ---
 
-## 👥 Auteur(s)
+## 👨‍💻 Auteur(s)
 
-**Développement dans le cadre du cours de Programmation Avancée - USTM DUT2-GRT**
+Développement dans le cadre du cours de Programmation Avancée - USTM DUT2-GRT
 
 ## 📄 Licence
 
 Projet académique - Libre d'utilisation à titre éducatif
+
+---
+
+## ⭐ Contribution
+
+Les contributions sont les bienvenues ! Vous pouvez :
+
+- Fork le projet
+- Créer des Pull Requests
+- Signaler des problèmes (Issues)
+- Proposer des améliorations
 
 ---
 
@@ -756,4 +874,4 @@ Pour toute question ou problème:
 
 ---
 
-**Dernière mise à jour**: Décembre 2025
+**Dernière mise à jour**: mars 2026
