@@ -24,14 +24,9 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lib/fonctions.h"
-#include "lib/etudiant.h"
+#include "../libs/fonctions.h"
+#include "../libs/etudiant.h"
 
-#define MAX_STUD 1000
-#define MAX_CHAMP 128
-#define MAX_LIGNE 512
-
-#define FILENAME "Etudiants.csv"
 
 /**
  * Structure AppWidgets - Contient les pointeurs vers les widgets d'entrée

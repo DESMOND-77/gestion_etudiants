@@ -1,5 +1,5 @@
-#include "lib/fonctions.h"
-#include "lib/etudiant.h"
+#include "../libs/fonctions.h"
+#include "../libs/etudiant.h"
 
 void saisir_etudiant(Etudiant *e)
 {

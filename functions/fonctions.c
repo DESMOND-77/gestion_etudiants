@@ -1,4 +1,19 @@
-#include "lib/fonctions.h"
+#include "../libs/fonctions.h"
+
+void balise_deb()
+{
+    definir_couleur(BLEUE);
+    printf("\t==> ");
+    definir_couleur(DEFAUT);
+}
+
+void recupere_champ(const char *output)
+{
+    if (!output)
+        return;
+    printf("%s", output);
+    definir_couleur(MAGENTA);
+}
 
 int taille_mot(char *mot)
 {
@@ -12,6 +27,7 @@ int taille_mot(char *mot)
 }
 
 int minuscule(char mot)
+
 {
 
     if (mot >= 'A' && mot <= 'Z')
@@ -260,3 +276,41 @@ int parse_csv_line(const char *line, Etudiant *etudiant)
     return champ;
 }
 
+void afficher_menu(int m)
+{
+    switch (m)
+    {
+    case 0:
+        printf("\n");
+        printf("Choisissez une option :\n");
+        balise_deb();
+        printf("1. Affichage des etudiants.\n");
+        balise_deb();
+        printf("2. Insertion de(s) etudiant(s).");
+        break;
+    case 2:
+
+        break;
+    case 1:
+        definir_couleur(bord);
+        printf("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+        printf("@@\t\t\t\t\t\t\t@@\n");
+        printf("@@\t   ");
+        definir_couleur(JAUNE);
+        printf("Programme terminer !!!. \t");
+        definir_couleur(bord);
+        printf("@@\n");
+        printf("@@\t\t\t\t\t\t\t@@\n");
+        printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+        definir_couleur(DEFAUT);
+        break;
+    default:
+        break;
+    }
+}
+
+int definir_couleur(int couleur)
+{
+    printf("\033[%dm", couleur);
+    return couleur;
+}

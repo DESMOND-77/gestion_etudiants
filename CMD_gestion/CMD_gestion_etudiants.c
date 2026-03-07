@@ -23,13 +23,13 @@
  * ============================================================================
  */
 
-#include "lib/fonctions.h"
-#include "lib/etudiant.h"
+#include "../libs/fonctions.h"
+#include "../libs/etudiant.h"
 
 int main()
 {
     // ========== DÉCLARATION DES VARIABLES ==========
-    const char *filename = "test.csv"; // Nom du fichier CSV de données
+    const char *filename = FILENAME; // Nom du fichier CSV de données
     Etudiant tableau[MAX_STUD];        // Tableau pour stocker les étudiants existants
     Etudiant etudiant;                 // Structure pour le nouvel étudiant à ajouter
 
