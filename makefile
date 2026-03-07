@@ -51,10 +51,10 @@ $(CMD_TARGET): $(CMD_OBJS)
 	$(CC) $(CMD_OBJS) -o $(CMD_TARGET) $(LDFLAGS)
 
 CMD_gestion/%.o: CMD_gestion/%.c
-	$(CC) $(CMD_CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(CMD_CFLAGS)  -c $< -o $@
 
 functions/%.o: functions/%.c
-	$(CC) $(CMD_CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(CMD_CFLAGS)  -c $< -o $@
 
 # ===============================
 # GUI Version
@@ -63,12 +63,12 @@ $(GUI_TARGET): $(GUI_OBJS)
 	$(CC) $(GUI_OBJS) -o $(GUI_TARGET) $(LDFLAGS) $(GTK_FLAGS)
 
 GUI_gestion/%.o: GUI_gestion/%.c
-	$(CC) $(GUI_CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(GUI_CFLAGS) -c $< -o $@
 
 # Note: functions are compiled with CMD_CFLAGS for consistency
 # If GUI-specific compilation is needed for functions, add a separate rule
 functions/%.o: functions/%.c
-	$(CC) $(CMD_CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(CMD_CFLAGS) -c $< -o $@
 
 # ===============================
 # Nettoyage

@@ -27,7 +27,6 @@
 #include "../libs/fonctions.h"
 #include "../libs/etudiant.h"
 
-
 /**
  * Structure AppWidgets - Contient les pointeurs vers les widgets d'entrée
  *

@@ -8,7 +8,7 @@
 #define MAX_STUD 1000
 #define MAX_CHAMP 128
 #define MAX_LIGNE 512
-#define FILENAME "../donnees/Etudiants.csv"
+#define FILENAME "data/Etudiants.csv"
 typedef struct
 {
     char nom[MAX_CHAMP];
