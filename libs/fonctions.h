@@ -229,4 +229,144 @@ extern void balise_deb();
  */
 extern void recupere_champ(const char *output);
 
+/**
+ * afficher_tous_etudiants - Affiche tous les étudiants du tableau
+ * @tableau: tableau d'`Etudiant` à afficher
+ * @n: nombre d'éléments dans le tableau
+ *
+ * Description:
+ *   Parcourt le tableau d'étudiants et affiche les informations
+ *   de chaque étudiant de manière formatée.
+ *
+ * Effets de bord:
+ *   - Écrit sur stdout
+ */
+extern void afficher_tous_etudiants(Etudiant tableau[], int n);
+
+/**
+ * supprimer_etudiant_par_matricule - Supprime un étudiant par son matricule
+ * @filename: chemin du fichier CSV à modifier
+ * @matricule: matricule de l'étudiant à supprimer
+ * @tableau: tableau d'étudiants actuel
+ * @n: nombre d'éléments dans le tableau (modifié par la fonction)
+ *
+ * Description:
+ *   Recherche un étudiant par son matricule dans le tableau,
+ *   le supprime (décalage des éléments), et sauvegarde
+ *   le résultat dans le fichier CSV.
+ *
+ * Retour:
+ *   - 1 si la suppression a réussi
+ *   - 0 si l'étudiant n'a pas été trouvé
+ *
+ * Effets de bord:
+ *   - Modifie le fichier CSV
+ *   - Écrit sur stdout
+ */
+extern int supprimer_etudiant_par_matricule(const char *filename, const char *matricule, Etudiant tableau[], int *n);
+
+/**
+ * modifier_etudiant_par_matricule - Modifie un étudiant par son matricule
+ * @filename: chemin du fichier CSV à modifier
+ * @matricule: matricule de l'étudiant à modifier
+ * @nouveau: pointeur vers la structure contenant les nouvelles données
+ * @tableau: tableau d'étudiants actuel
+ * @n: nombre d'éléments dans le tableau
+ *
+ * Description:
+ *   Recherche un étudiant par son matricule dans le tableau,
+ *   met à jour ses informations, et sauvegarde
+ *   le résultat dans le fichier CSV.
+ *
+ * Retour:
+ *   - 1 si la modification a réussi
+ *   - 0 si l'étudiant n'a pas été trouvé
+ *
+ * Effets de bord:
+ *   - Modifie le fichier CSV
+ *   - Écrit sur stdout
+ */
+extern int modifier_etudiant_par_matricule(const char *filename, const char *matricule, Etudiant *nouveau, Etudiant tableau[], int n);
+
+/**
+ * rechercher_etudiant_par_nom - Recherche des étudiants par nom (partiel)
+ * @tableau: tableau d'`Etudiant` à parcourir
+ * @n: nombre d'éléments dans le tableau
+ * @nom: nom à rechercher (peut être partiel)
+ *
+ * Description:
+ *   Parcourt le tableau et affiche tous les étudiants dont
+ *   le nom contient la chaîne recherchée (insensible à la casse).
+ *
+ * Effets de bord:
+ *   - Écrit sur stdout
+ *
+ * Retour:
+ *   - Nombre d'étudiants trouvés
+ */
+extern int rechercher_etudiant_par_nom(Etudiant tableau[], int n, const char *nom);
+
+/**
+ * comparer_par_nom_asc - Comparateur pour tri par nom croissant
+ * @a: premier étudiant
+ * @b: deuxième étudiant
+ *
+ * Retour:
+ *   - < 0 si a < b
+ *   - > 0 si a > b
+ *   - 0 si a == b
+ */
+extern int comparer_par_nom_asc(const void *a, const void *b);
+
+/**
+ * comparer_par_nom_desc - Comparateur pour tri par nom décroissant
+ * @a: premier étudiant
+ * @b: deuxième étudiant
+ *
+ * Retour:
+ *   - < 0 si a > b (inversé)
+ *   - > 0 si a < b (inversé)
+ *   - 0 si a == b
+ */
+extern int comparer_par_nom_desc(const void *a, const void *b);
+
+/**
+ * comparer_par_classe_asc - Comparateur pour tri par classe croissant
+ * @a: premier étudiant
+ * @b: deuxième étudiant
+ *
+ * Retour:
+ *   - < 0 si a < b
+ *   - > 0 si a > b
+ *   - 0 si a == b
+ */
+extern int comparer_par_classe_asc(const void *a, const void *b);
+
+/**
+ * comparer_par_classe_desc - Comparateur pour tri par classe décroissant
+ * @a: premier étudiant
+ * @b: deuxième étudiant
+ *
+ * Retour:
+ *   - < 0 si a > b (inversé)
+ *   - > 0 si a < b (inversé)
+ *   - 0 si a == b
+ */
+extern int comparer_par_classe_desc(const void *a, const void *b);
+
+/**
+ * trier_etudiants - Trie le tableau d'étudiants selon le critère choisi
+ * @tableau: tableau d'`Etudiant` à trier
+ * @n: nombre d'éléments dans le tableau
+ * @option: option de tri (1: nom asc, 2: nom desc, 3: classe asc, 4: classe desc)
+ *
+ * Description:
+ *   Utilise qsort pour trier le tableau selon le comparateur approprié.
+ *
+ * Effets de bord:
+ *   - Modifie l'ordre du tableau
+ *   - Écrit sur stdout
+ */
+extern void trier_etudiants(Etudiant tableau[], int n, int option);
+
 #endif

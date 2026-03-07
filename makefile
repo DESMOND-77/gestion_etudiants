@@ -11,20 +11,24 @@ LDFLAGS =
 # Console Version Sources
 CMD_SRC = CMD_gestion/CMD_gestion_etudiants.c \
           functions/etudiant.c \
-          functions/fonctions.c
+          functions/fonctions.c \
+          functions/banner.c
 
 # GUI Version Sources
 GUI_SRC = GUI_gestion/GUI_gestion_etudiants.c \
-          functions/fonctions.c
+          functions/fonctions.c \
+          functions/banner.c
 
 # Object files
 CMD_OBJS = CMD_gestion/CMD_gestion_etudiants.o \
            functions/etudiant.o \
-           functions/fonctions.o
+           functions/fonctions.o \
+           functions/banner.o
 
 GUI_OBJS = GUI_gestion/GUI_gestion_etudiants.o \
            functions/etudiant.o \
-           functions/fonctions.o
+           functions/fonctions.o \
+           functions/banner.o
 
 CMD_TARGET = cmd_gestion_etudiants
 GUI_TARGET = gui_gestion_etudiants

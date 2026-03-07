@@ -1,4 +1,6 @@
 #include "../libs/fonctions.h"
+#include "../libs/banner.h"
+#include <string.h>
 
 void balise_deb()
 {
@@ -276,41 +278,278 @@ int parse_csv_line(const char *line, Etudiant *etudiant)
     return champ;
 }
 
-void afficher_menu(int m)
-{
-    switch (m)
-    {
-    case 0:
-        printf("\n");
-        printf("Choisissez une option :\n");
-        balise_deb();
-        printf("1. Affichage des etudiants.\n");
-        balise_deb();
-        printf("2. Insertion de(s) etudiant(s).");
-        break;
-    case 2:
-
-        break;
-    case 1:
-        definir_couleur(bord);
-        printf("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-        printf("@@\t\t\t\t\t\t\t@@\n");
-        printf("@@\t   ");
-        definir_couleur(JAUNE);
-        printf("Programme terminer !!!. \t");
-        definir_couleur(bord);
-        printf("@@\n");
-        printf("@@\t\t\t\t\t\t\t@@\n");
-        printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-        definir_couleur(DEFAUT);
-        break;
-    default:
-        break;
-    }
-}
+// void afficher_menu(int m)
+// {
+//     switch (m)
+//     {
+//     case 0:
+//         printf("\n");
+//         printf("Choisissez une option :\n");
+//         balise_deb();
+//         printf("1. Affichage des etudiants.\n");
+//         balise_deb();
+//         printf("2. Insertion de(s) etudiant(s).");
+//         break;
+//     case 2:
+//         break;
+//     case 1:
+//         definir_couleur(bord);
+//         printf("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//         printf("@@\t\t\t\t\t\t\t@@\n");
+//         printf("@@\t   ");
+//         definir_couleur(JAUNE);
+//         printf("Programme terminer !!!. \t");
+//         definir_couleur(bord);
+//         printf("@@\n");
+//         printf("@@\t\t\t\t\t\t\t@@\n");
+//         printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
+//         definir_couleur(DEFAUT);
+//         break;
+//     default:
+//         break;
+//     }
+// }
 
 int definir_couleur(int couleur)
 {
     printf("\033[%dm", couleur);
     return couleur;
+}
+
+/* ============================================
+ * FONCTIONS ADDITIONNELLES POUR LA GESTION
+ * ============================================ */
+
+void afficher_tous_etudiants(Etudiant tableau[], int n)
+{
+    if (n == 0)
+    {
+        printf("\nAucun etudiant dans la base de donnees.\n");
+        return;
+    }
+
+    printf("\n");
+    printf("=============================================================\n");
+    printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n", "NOM", "PRENOM", "CLASSE", "MATRICULE", "EMAIL");
+    printf("=============================================================\n");
+
+    for (int i = 0; i < n; i++)
+    {
+        printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n",
+               tableau[i].nom,
+               tableau[i].prenom,
+               tableau[i].classe,
+               tableau[i].matricule,
+               tableau[i].email);
+    }
+    printf("=============================================================\n");
+    printf("Total: %d etudiant(s)\n", n);
+}
+
+int supprimer_etudiant_par_matricule(const char *filename, const char *matricule, Etudiant tableau[], int *n)
+{
+    int pos = -1;
+
+    /* Recherche de l'étudiant par matricule */
+    for (int i = 0; i < *n; i++)
+    {
+        if (compare_mots(tableau[i].matricule, matricule) == 0)
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    if (pos == -1)
+    {
+        definir_couleur(erreur);
+        printf("\nEtudiant avec le matricule \"%s\" non trouve.\n", matricule);
+        definir_couleur(DEFAUT);
+        return 0;
+    }
+
+    /* Confirmation de la suppression */
+    definir_couleur(JAUNE);
+    printf("\nEtudiant trouve: %s %s (Matricule: %s)\n",
+           tableau[pos].nom, tableau[pos].prenom, tableau[pos].matricule);
+    definir_couleur(DEFAUT);
+
+    /* Décalage des éléments vers la gauche */
+    for (int i = pos; i < *n - 1; i++)
+    {
+        tableau[i] = tableau[i + 1];
+    }
+
+    (*n)--;
+
+    /* Sauvegarde dans le fichier CSV */
+    if (vers_csv(filename, tableau, *n))
+    {
+        definir_couleur(reussite);
+        printf("Etudiant supprime avec succes.\n");
+        definir_couleur(DEFAUT);
+        return 1;
+    }
+    else
+    {
+        definir_couleur(erreur);
+        printf("Erreur lors de la sauvegarde du fichier.\n");
+        definir_couleur(DEFAUT);
+        return 0;
+    }
+}
+
+int modifier_etudiant_par_matricule(const char *filename, const char *matricule, Etudiant *nouveau, Etudiant tableau[], int n)
+{
+    int pos = -1;
+
+    /* Recherche de l'étudiant par matricule */
+    for (int i = 0; i < n; i++)
+    {
+        if (compare_mots(tableau[i].matricule, matricule) == 0)
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    if (pos == -1)
+    {
+        definir_couleur(erreur);
+        printf("\nEtudiant avec le matricule \"%s\" non trouve.\n", matricule);
+        definir_couleur(DEFAUT);
+        return 0;
+    }
+
+    /* Affichage de l'étudiant actuel */
+    definir_couleur(JAUNE);
+    printf("\nEtudiant actuel: %s %s (Classe: %s, Email: %s)\n",
+           tableau[pos].nom, tableau[pos].prenom, tableau[pos].classe, tableau[pos].email);
+    definir_couleur(DEFAUT);
+
+    /* Mise à jour de l'étudiant */
+    tableau[pos] = *nouveau;
+
+    /* Sauvegarde dans le fichier CSV */
+    if (vers_csv(filename, tableau, n))
+    {
+        definir_couleur(reussite);
+        printf("Etudiant modifie avec succes.\n");
+        definir_couleur(DEFAUT);
+        return 1;
+    }
+    else
+    {
+        definir_couleur(erreur);
+        printf("Erreur lors de la sauvegarde du fichier.\n");
+        definir_couleur(DEFAUT);
+        return 0;
+    }
+}
+
+int rechercher_etudiant_par_nom(Etudiant tableau[], int n, const char *nom)
+{
+    int count = 0;
+
+    if (n == 0)
+    {
+        printf("\nAucun etudiant dans la base de donnees.\n");
+        return 0;
+    }
+
+    printf("\n");
+    printf("=============================================================\n");
+    printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n", "NOM", "PRENOM", "CLASSE", "MATRICULE", "EMAIL");
+    printf("=============================================================\n");
+
+    for (int i = 0; i < n; i++)
+    {
+        /* Recherche insensible à la casse et partielle */
+        if (strstr(tableau[i].nom, nom) != NULL ||
+            strstr(nom, tableau[i].nom) != NULL ||
+            compare_mots(tableau[i].nom, nom) == 0)
+        {
+            printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n",
+               tableau[i].nom,
+               tableau[i].prenom,
+               tableau[i].classe,
+               tableau[i].matricule,
+               tableau[i].email);
+            count++;
+        }
+    }
+
+    if (count == 0)
+    {
+        printf("=============================================================\n");
+        printf("Aucun resultat pour la recherche: \"%s\"\n", nom);
+    }
+    else
+    {
+        printf("=============================================================\n");
+        printf("Total: %d etudiant(s) trouve(s)\n", count);
+    }
+
+    return count;
+}
+
+/* Fonctions de comparaison pour qsort */
+int comparer_par_nom_asc(const void *a, const void *b)
+{
+    Etudiant *ea = (Etudiant *)a;
+    Etudiant *eb = (Etudiant *)b;
+    return compare_mots(ea->nom, eb->nom);
+}
+
+int comparer_par_nom_desc(const void *a, const void *b)
+{
+    Etudiant *ea = (Etudiant *)a;
+    Etudiant *eb = (Etudiant *)b;
+    return compare_mots(eb->nom, ea->nom);
+}
+
+int comparer_par_classe_asc(const void *a, const void *b)
+{
+    Etudiant *ea = (Etudiant *)a;
+    Etudiant *eb = (Etudiant *)b;
+    return compare_mots(ea->classe, eb->classe);
+}
+
+int comparer_par_classe_desc(const void *a, const void *b)
+{
+    Etudiant *ea = (Etudiant *)a;
+    Etudiant *eb = (Etudiant *)b;
+    return compare_mots(eb->classe, ea->classe);
+}
+
+void trier_etudiants(Etudiant tableau[], int n, int option)
+{
+    if (n == 0)
+    {
+        printf("\nAucun etudiant a trier.\n");
+        return;
+    }
+
+    switch (option)
+    {
+    case 1:
+        qsort(tableau, n, sizeof(Etudiant), comparer_par_nom_asc);
+        printf("\nEtudiants tries par nom (croissant).\n");
+        break;
+    case 2:
+        qsort(tableau, n, sizeof(Etudiant), comparer_par_nom_desc);
+        printf("\nEtudiants tries par nom (decroissant).\n");
+        break;
+    case 3:
+        qsort(tableau, n, sizeof(Etudiant), comparer_par_classe_asc);
+        printf("\nEtudiants tries par classe (croissant).\n");
+        break;
+    case 4:
+        qsort(tableau, n, sizeof(Etudiant), comparer_par_classe_desc);
+        printf("\nEtudiants tries par classe (decroissant).\n");
+        break;
+    default:
+        printf("\nOption de tri invalide.\n");
+        return;
+    }
 }
