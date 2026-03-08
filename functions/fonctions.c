@@ -8,7 +8,11 @@ void balise_deb()
     printf("\t==> ");
     definir_couleur(DEFAUT);
 }
-
+int definir_couleur(int couleur)
+{
+    printf("\033[%dm", couleur);
+    return couleur;
+}
 void recupere_champ(const char *output)
 {
     if (!output)
@@ -242,10 +246,7 @@ int parse_csv_line(const char *line, Etudiant *etudiant)
         }
     }
 
-    /* If line ended while still collecting a field (no trailing newline/comma)
-     * we need to commit it. This also covers the case where the line ended
-     * right after a quoted field without a newline.
-     */
+    /* If line ended while still collecting a field (no trailing newline/comma) */
     if (p > 0 || (line[0] != '\0' && champ == 0))
     {
         actuelle[p] = '\0';
@@ -278,47 +279,320 @@ int parse_csv_line(const char *line, Etudiant *etudiant)
     return champ;
 }
 
-// void afficher_menu(int m)
-// {
-//     switch (m)
-//     {
-//     case 0:
-//         printf("\n");
-//         printf("Choisissez une option :\n");
-//         balise_deb();
-//         printf("1. Affichage des etudiants.\n");
-//         balise_deb();
-//         printf("2. Insertion de(s) etudiant(s).");
-//         break;
-//     case 2:
-//         break;
-//     case 1:
-//         definir_couleur(bord);
-//         printf("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-//         printf("@@\t\t\t\t\t\t\t@@\n");
-//         printf("@@\t   ");
-//         definir_couleur(JAUNE);
-//         printf("Programme terminer !!!. \t");
-//         definir_couleur(bord);
-//         printf("@@\n");
-//         printf("@@\t\t\t\t\t\t\t@@\n");
-//         printf("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-//         definir_couleur(DEFAUT);
-//         break;
-//     default:
-//         break;
-//     }
-// }
-
-int definir_couleur(int couleur)
+void vider_buffer(void)
 {
-    printf("\033[%dm", couleur);
-    return couleur;
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+        ;
+}
+
+int charger_etudiants(const char *filename, Etudiant tableau[])
+{
+    return lire_csv(filename, tableau);
+}
+
+int sauvegarder_etudiants(const char *filename, Etudiant tableau[], int n)
+{
+    return vers_csv(filename, tableau, n);
+}
+
+void traiter_option(const char *filename, Etudiant tableau[], int *n, int option)
+{
+    char buffer[MAX_CHAMP];
+    int choix;
+
+    switch (option)
+    {
+    case 1: /* Afficher tous les étudiants */
+        afficher_separateur();
+        printf("                        LISTE DES ETUDIANTS\n");
+        afficher_separateur();
+        afficher_tous_etudiants(tableau, *n);
+        break;
+
+    case 2: /* Ajouter un étudiant */
+        afficher_separateur();
+        printf("                        AJOUTER UN ETUDIANT\n");
+        afficher_separateur();
+
+        /* Vérification de capacité */
+        if (*n + 1 > MAX_STUD)
+        {
+            definir_couleur(erreur);
+            printf("\nFichier plein !!!\n");
+            definir_couleur(DEFAUT);
+            break;
+        }
+
+        Etudiant etudiant;
+        saisir_etudiant(&etudiant);
+
+        /* Vérification de doublon par matricule */
+        for (int i = 0; i < *n; i++)
+        {
+            if (compare_mots(tableau[i].matricule, etudiant.matricule) == 0)
+            {
+                definir_couleur(erreur);
+                printf("\nL'etudiant(e) %s %s est dejà present(e) dans %s.\n",
+                       etudiant.nom, etudiant.prenom, filename);
+                definir_couleur(DEFAUT);
+                return;
+            }
+        }
+
+        /* Recherche de la position d'insertion (tri alphabétique par nom) */
+        int pos = cher_pos_ins(tableau, *n, etudiant.nom);
+        if (pos < 0)
+            pos = *n;
+
+        /* Décalage et insertion */
+        for (int i = *n; i > pos; i--)
+        {
+            tableau[i] = tableau[i - 1];
+        }
+        tableau[pos] = etudiant;
+        (*n)++;
+
+        /* Sauvegarde */
+        if (sauvegarder_etudiants(filename, tableau, *n))
+        {
+            definir_couleur(reussite);
+            printf("\nEtudiant(e) insere(e) avec succes.\n");
+            definir_couleur(DEFAUT);
+        }
+        else
+        {
+            definir_couleur(erreur);
+            printf("\nErreur d'ecriture du fichier.\n");
+            definir_couleur(DEFAUT);
+        }
+        break;
+
+    case 3:
+        afficher_separateur();
+        printf("                        MODIFIER UN ETUDIANT\n");
+        afficher_separateur();
+
+        printf("\nEntrez le matricule de l'etudiant a modifier : ");
+        definir_couleur(MAGENTA);
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[taille_mot(buffer) - 1] = '\0';
+        definir_couleur(DEFAUT);
+
+        /* Vérifier si l'étudiant existe */
+        int pos_mod = -1;
+        for (int i = 0; i < *n; i++)
+        {
+            if (compare_mots(tableau[i].matricule, buffer) == 0)
+            {
+                pos_mod = i;
+                break;
+            }
+        }
+
+        if (pos_mod == -1)
+        {
+            definir_couleur(erreur);
+            printf("\nEtudiant avec le matricule \"%s\" non trouve.\n", buffer);
+            definir_couleur(DEFAUT);
+            break;
+        }
+
+        /* Afficher les informations actuelles */
+        printf("\nInformations actuelles:\n");
+        printf("  Nom: %s\n", tableau[pos_mod].nom);
+        printf("  Prenom: %s\n", tableau[pos_mod].prenom);
+        printf("  Classe: %s\n", tableau[pos_mod].classe);
+        printf("  Email: %s\n", tableau[pos_mod].email);
+        printf("  Sexe: %s\n", tableau[pos_mod].sex);
+
+        /* Saisie des nouvelles informations */
+        printf("\nEntrez les nouvelles informations:\n");
+        Etudiant nouveau;
+        saisir_etudiant(&nouveau);
+
+        /* Conserver l'ancien matricule pour la recherche */
+        safe_strncpy(nouveau.matricule, buffer, MAX_CHAMP);
+
+        /* Mise à jour */
+        if (modifier_etudiant_par_matricule(filename, buffer, &nouveau, tableau, *n))
+        {
+            /* Recharger les données */
+            *n = charger_etudiants(filename, tableau);
+        }
+        break;
+
+    case 4: /* Supprimer un étudiant */
+        afficher_separateur();
+        printf("                        SUPPRIMER UN ETUDIANT\n");
+        afficher_separateur();
+
+        printf("\nEntrez le matricule de l'etudiant a supprimer : ");
+        definir_couleur(MAGENTA);
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[taille_mot(buffer) - 1] = '\0';
+        definir_couleur(DEFAUT);
+
+        supprimer_etudiant_par_matricule(filename, buffer, tableau, n);
+        break;
+
+    case 5: /* Rechercher un étudiant par nom */
+        afficher_separateur();
+        printf("                        RECHERCHER UN ETUDIANT\n");
+        afficher_separateur();
+
+        printf("\nEntrez le nom a rechercher : ");
+        definir_couleur(MAGENTA);
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[taille_mot(buffer) - 1] = '\0';
+        definir_couleur(DEFAUT);
+
+        rechercher_etudiant_par_nom(tableau, *n, buffer);
+        break;
+
+    case 6: /* Trier les étudiants */
+        afficher_separateur();
+        printf("                        TRIER LES ETUDIANTS\n");
+        afficher_separateur();
+
+        afficher_menu_tri();
+
+        /* Lire le choix de tri */
+        if (scanf("%d", &choix) != 1)
+        {
+            vider_buffer();
+            definir_couleur(erreur);
+            printf("\nEntree invalide.\n");
+            definir_couleur(DEFAUT);
+            break;
+        }
+        vider_buffer();
+
+        /* Appliquer le tri */
+        trier_etudiants(tableau, *n, choix);
+        afficher_tous_etudiants(tableau, *n);
+        /* Demander si l'utilisateur veut sauvegarder */
+        // if (choix >= 1 && choix <= 4)
+        // {
+        //     printf("\nVoulez-vous sauvegarder le tri ? (1: Oui, 0: Non) : ");
+        //     if (scanf("%d", &choix) == 1 && choix == 1)
+        //     {
+        //         sauvegarder_etudiants(filename, tableau, *n);
+        //         definir_couleur(reussite);
+        //         printf("Tri sauvegarde avec succes.\n");
+        //         definir_couleur(DEFAUT);
+        //     }
+        //     vider_buffer();
+        // }
+        break;
+
+    case 0: /* Quitter */
+        /* Ne rien faire, la boucle principale gérera la sortie */
+        break;
+
+    default:
+        definir_couleur(erreur);
+        printf("\nOption invalide. Veuillez choisir une option valide.\n");
+        definir_couleur(DEFAUT);
+        break;
+    }
 }
 
 /* ============================================
  * FONCTIONS ADDITIONNELLES POUR LA GESTION
  * ============================================ */
+
+int contient_sous_chaine(const char *texte, const char *sous_chaine)
+{
+    if (!texte || !sous_chaine)
+        return 0;
+
+    /* Convertir les deux chaînes en minuscules pour la comparaison */
+    char texte_lower[MAX_CHAMP];
+    char sous_chaine_lower[MAX_CHAMP];
+
+    int i = 0;
+    while (texte[i] && i < MAX_CHAMP - 1)
+    {
+        texte_lower[i] = minuscule(texte[i]);
+        i++;
+    }
+    texte_lower[i] = '\0';
+
+    i = 0;
+    while (sous_chaine[i] && i < MAX_CHAMP - 1)
+    {
+        sous_chaine_lower[i] = minuscule(sous_chaine[i]);
+        i++;
+    }
+    sous_chaine_lower[i] = '\0';
+
+    /* Utiliser strstr pour la recherche de sous-chaîne */
+    return (strstr(texte_lower, sous_chaine_lower) != NULL) ? 1 : 0;
+}
+
+void calculer_largeurs_colonnes(Etudiant tableau[], int n, ColWidths *widths)
+{
+    /* Initialiser avec les largeurs des en-têtes */
+    widths->nom = strlen("NOM");
+    widths->prenom = strlen("PRENOM");
+    widths->classe = strlen("CLASSE");
+    widths->matricule = strlen("MATRICULE");
+    widths->email = strlen("EMAIL");
+
+    /* Trouver le maximum pour chaque colonne */
+    for (int i = 0; i < n; i++)
+    {
+        int len_nom = strlen(tableau[i].nom);
+        int len_prenom = strlen(tableau[i].prenom);
+        int len_classe = strlen(tableau[i].classe);
+        int len_matricule = strlen(tableau[i].matricule);
+        int len_email = strlen(tableau[i].email);
+
+        if (len_nom > widths->nom)
+            widths->nom = len_nom;
+        if (len_prenom > widths->prenom)
+            widths->prenom = len_prenom;
+        if (len_classe > widths->classe)
+            widths->classe = len_classe;
+        if (len_matricule > widths->matricule)
+            widths->matricule = len_matricule;
+        if (len_email > widths->email)
+            widths->email = len_email;
+    }
+}
+
+void afficher_ligne_separatrice(ColWidths *widths, int pad)
+{
+    /* Ajouter un petit padding pour l'esthétique */
+    widths->nom += pad;
+    widths->prenom += pad;
+    widths->classe += pad;
+    widths->matricule += pad;
+    widths->email += pad;
+    printf("+");
+    for (int i = 0; i < widths->nom; i++)
+        printf("-");
+    printf("+");
+    for (int i = 0; i < widths->prenom; i++)
+        printf("-");
+    printf("+");
+    for (int i = 0; i < widths->classe; i++)
+        printf("-");
+    printf("+");
+    for (int i = 0; i < widths->matricule; i++)
+        printf("-");
+    printf("+");
+    for (int i = 0; i < widths->email; i++)
+        printf("-");
+    printf("+\n");
+    /* Enlever le petit padding */
+    widths->nom -= pad;
+    widths->prenom -= pad;
+    widths->classe -= pad;
+    widths->matricule -= pad;
+    widths->email -= pad;
+}
 
 void afficher_tous_etudiants(Etudiant tableau[], int n)
 {
@@ -328,21 +602,35 @@ void afficher_tous_etudiants(Etudiant tableau[], int n)
         return;
     }
 
-    printf("\n");
-    printf("=============================================================\n");
-    printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n", "NOM", "PRENOM", "CLASSE", "MATRICULE", "EMAIL");
-    printf("=============================================================\n");
+    /* Calculer les largeurs dynamiques */
+    ColWidths widths;
+    calculer_largeurs_colonnes(tableau, n, &widths);
 
+    printf("\n");
+    afficher_ligne_separatrice(&widths, tab_pad);
+
+    /* En-têtes */
+    printf("| %-*s | %-*s | %-*s | %-*s | %-*s |\n",
+           widths.nom, "NOM",
+           widths.prenom, "PRENOM",
+           widths.classe, "CLASSE",
+           widths.matricule, "MATRICULE",
+           widths.email, "EMAIL");
+
+    afficher_ligne_separatrice(&widths, tab_pad);
+
+    /* Données */
     for (int i = 0; i < n; i++)
     {
-        printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n",
-               tableau[i].nom,
-               tableau[i].prenom,
-               tableau[i].classe,
-               tableau[i].matricule,
-               tableau[i].email);
+        printf("| %-*s | %-*s | %-*s | %-*s | %-*s |\n",
+               widths.nom, tableau[i].nom,
+               widths.prenom, tableau[i].prenom,
+               widths.classe, tableau[i].classe,
+               widths.matricule, tableau[i].matricule,
+               widths.email, tableau[i].email);
     }
-    printf("=============================================================\n");
+
+    afficher_ligne_separatrice(&widths, tab_pad);
     printf("Total: %d etudiant(s)\n", n);
 }
 
@@ -453,47 +741,64 @@ int rechercher_etudiant_par_nom(Etudiant tableau[], int n, const char *nom)
 
     if (n == 0)
     {
+        definir_couleur(erreur);
         printf("\nAucun etudiant dans la base de donnees.\n");
+        definir_couleur(DEFAUT);
         return 0;
     }
+    definir_couleur(MAGENTA);
+    /* Calculer les largeurs dynamiques */
+    ColWidths widths;
+    calculer_largeurs_colonnes(tableau, n, &widths);
 
     printf("\n");
-    printf("=============================================================\n");
-    printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n", "NOM", "PRENOM", "CLASSE", "MATRICULE", "EMAIL");
-    printf("=============================================================\n");
+    afficher_ligne_separatrice(&widths, tab_pad);
+    /* En-têtes */
+    printf("| %-*s | %-*s | %-*s | %-*s | %-*s |\n",
+           widths.nom, "NOM",
+           widths.prenom, "PRENOM",
+           widths.classe, "CLASSE",
+           widths.matricule, "MATRICULE",
+           widths.email, "EMAIL");
+
+    afficher_ligne_separatrice(&widths, tab_pad);
 
     for (int i = 0; i < n; i++)
     {
         /* Recherche insensible à la casse et partielle */
-        if (strstr(tableau[i].nom, nom) != NULL ||
+        if (contient_sous_chaine(tableau[i].nom, nom) || strstr(tableau[i].nom, nom) != NULL ||
             strstr(nom, tableau[i].nom) != NULL ||
             compare_mots(tableau[i].nom, nom) == 0)
         {
-            printf("| %-15s | %-15s | %-10s | %-5s |%-25s |\n",
-               tableau[i].nom,
-               tableau[i].prenom,
-               tableau[i].classe,
-               tableau[i].matricule,
-               tableau[i].email);
+            printf("| %-*s | %-*s | %-*s | %-*s | %-*s |\n",
+                   widths.nom, tableau[i].nom,
+                   widths.prenom, tableau[i].prenom,
+                   widths.classe, tableau[i].classe,
+                   widths.matricule, tableau[i].matricule,
+                   widths.email, tableau[i].email);
             count++;
         }
     }
 
     if (count == 0)
     {
-        printf("=============================================================\n");
+        definir_couleur(JAUNE);
+        afficher_ligne_separatrice(&widths, tab_pad);
         printf("Aucun resultat pour la recherche: \"%s\"\n", nom);
+        definir_couleur(DEFAUT);
     }
     else
     {
-        printf("=============================================================\n");
+        afficher_ligne_separatrice(&widths, tab_pad);
         printf("Total: %d etudiant(s) trouve(s)\n", count);
     }
-
+    definir_couleur(DEFAUT);
     return count;
 }
 
-/* Fonctions de comparaison pour qsort */
+/* =============================================
+ * FONCTIONS DE COMPARAISON QSORT ET DE TRIE
+ * ============================================= */
 int comparer_par_nom_asc(const void *a, const void *b)
 {
     Etudiant *ea = (Etudiant *)a;

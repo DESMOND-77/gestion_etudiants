@@ -8,6 +8,7 @@
 #define MAX_STUD 1000
 #define MAX_CHAMP 128
 #define MAX_LIGNE 512
+#define tab_pad 2
 #define FILENAME "data/Etudiants.csv"
 typedef struct
 {
@@ -18,6 +19,17 @@ typedef struct
     char email[MAX_CHAMP];
     char sex[MAX_CHAMP];
 } Etudiant;
+/**
+ * Structure pour les largeurs de colonnes
+ */
+typedef struct
+{
+    int nom;
+    int prenom;
+    int classe;
+    int matricule;
+    int email;
+} ColWidths;
 
 /**
  * saisir_etudiant - Invite à la saisie des champs d'un étudiant

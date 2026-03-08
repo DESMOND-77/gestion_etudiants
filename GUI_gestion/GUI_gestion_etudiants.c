@@ -257,7 +257,7 @@ static void on_btn_rechercher_clicked(GtkButton *button, gpointer user_data)
 
     for (int i = 0; i < n; i++)
     {
-        if (strstr(etudiants[i].nom, nom) != NULL ||
+        if (contient_sous_chaine(etudiants[i].nom, nom) ||strstr(etudiants[i].nom, nom) != NULL ||
             strstr(nom, etudiants[i].nom) != NULL ||
             compare_mots(etudiants[i].nom, nom) == 0)
         {

@@ -2,7 +2,8 @@
 #define BANNER_H
 
 /**
- * afficher_bienvenue - Affiche le banner de bienvenue du programme
+ * afficher_accueil - Affiche le banner de bienvenue du programme
+ * @filename: chemin du fichier CSV
  *
  * Description:
  *   Affiche un encadré ASCII colorisé avec le message de bienvenue
@@ -12,7 +13,7 @@
  *   - Écrit sur stdout
  *   - Modifie les couleurs via definir_couleur()
  */
-extern void afficher_bienvenue(void);
+extern void afficher_accueil(const char *filename);
 
 /**
  * afficher_menu_principal - Affiche le menu principal du programme

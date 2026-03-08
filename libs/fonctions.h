@@ -61,7 +61,14 @@ extern void safe_strncpy(char *dst, const char *src, size_t dst_size);
  * Complexité: O(min(len(mot1), len(mot2))).
  */
 extern int compare_mots(const char *mot1, const char *mot2);
-
+/**
+ * contient_sous_chaine - Vérifie si une chaîne contient une sous-chaîne (insensible à la casse)
+ * @texte: chaîne dans laquelle chercher
+ * @sous_chaine: sous-chaîne à chercher
+ *
+ * Retour: 1 si trouvé, 0 sinon
+ */
+extern int contient_sous_chaine(const char *texte, const char *sous_chaine);
 /**
  * vers_csv - Écrit un tableau d'étudiants dans un fichier CSV
  * @filename: chemin du fichier à écrire (créé/tronqué)
@@ -355,6 +362,36 @@ extern int comparer_par_classe_asc(const void *a, const void *b);
 extern int comparer_par_classe_desc(const void *a, const void *b);
 
 /**
+ * vider_buffer - Vide le buffer d'entrée stdin
+ */
+extern void vider_buffer(void);
+/**
+ * charger_etudiants - Charge les étudiants depuis le fichier CSV
+ * @filename: chemin du fichier CSV
+ * @tableau: tableau où stocker les étudiants
+ *
+ * Retour: nombre d'étudiants chargés
+ */
+extern int charger_etudiants(const char *filename, Etudiant tableau[]);
+/**
+ * sauvegarder_etudiants - Sauvegarde les étudiants dans le fichier CSV
+ * @filename: chemin du fichier CSV
+ * @tableau: tableau d'étudiants à sauvegarder
+ * @n: nombre d'étudiants
+ *
+ * Retour: 1 en cas de succès, 0 en cas d'échec
+ */
+extern int sauvegarder_etudiants(const char *filename, Etudiant tableau[], int n);
+/**
+ * traiter_option - Traite l'option choisie par l'utilisateur
+ * @filename: chemin du fichier CSV
+ * @tableau: tableau d'étudiants
+ * @n: pointeur vers le nombre d'étudiants
+ * @option: option choisie
+ */
+extern void traiter_option(const char *filename, Etudiant tableau[], int *n, int option);
+
+/**
  * trier_etudiants - Trie le tableau d'étudiants selon le critère choisi
  * @tableau: tableau d'`Etudiant` à trier
  * @n: nombre d'éléments dans le tableau
@@ -368,5 +405,15 @@ extern int comparer_par_classe_desc(const void *a, const void *b);
  *   - Écrit sur stdout
  */
 extern void trier_etudiants(Etudiant tableau[], int n, int option);
-
+/**
+ * afficher_ligne_separatrice - Affiche une ligne séparatrice avec largeurs dynamiques
+ */
+extern void afficher_ligne_separatrice(ColWidths *widths,int pad);
+/**
+ * calculer_largeurs_colonnes - Calcule la largeur optimale pour chaque colonne
+ * @tableau: tableau d'étudiants
+ * @n: nombre d'étudiants
+ * @widths: structure pour stocker les largeurs calculées
+ */
+extern void calculer_largeurs_colonnes(Etudiant tableau[], int n, ColWidths *widths);
 #endif

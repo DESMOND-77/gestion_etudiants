@@ -2,8 +2,11 @@
 #include "../libs/couleurs.h"
 #include "../libs/fonctions.h"
 
-void afficher_bienvenue(void)
+void afficher_accueil(const char *filename)
 {
+    Etudiant temp[MAX_STUD];
+    int n = charger_etudiants(filename, temp);
+
     definir_couleur(bord);
     printf("##########################################################################\n");
     printf("##\t\t\t\t\t\t\t\t\t##\n");
@@ -15,9 +18,9 @@ void afficher_bienvenue(void)
     printf("##\t\t\t\t\t\t\t\t\t##\n");
     printf("##########################################################################\n");
     printf("||\t\t\t\t\t\t\t\t\t||\n");
-    printf("||\t");
+    printf("||\t\t");
     definir_couleur(JAUNE);
-    printf("Nombres d'etudiants actuel dans le fichier : \t");
+    printf("       Nombre d'etudiants actuel: %d  \t\t\t", n);
     definir_couleur(bord);
     printf("||\n");
     printf("==========================================================================\n");
@@ -83,7 +86,6 @@ void afficher_message_fin(void)
 
 void afficher_separateur(void)
 {
-    printf("\n");
     printf("--------------------------------------------------------------------------\n");
 }
 
