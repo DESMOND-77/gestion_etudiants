@@ -1,296 +1,442 @@
 ================================================================================
-                  GUIDE RAPIDE - GESTION DES ÉTUDIANTS
-                        Projet C - USTM DUT2-GRT
+                    GUIDE D'INSTALLATION ET D'UTILISATION
+                   Système de Gestion des Étudiants - USTM
+                     Projet Académique - DUT2-GRT S1
 ================================================================================
 
-📌 PRÉREQUIS OBLIGATOIRES
+TABLE DES MATIÈRES
 ================================================================================
 
-✓ Avoir MSYS2 installé sur Windows (https://www.msys2.org/)
-✓ Ouvrir le terminal MSYS2 MinGW 64-bit
-✓ Naviguer vers le répertoire du projet
+1. Introduction
+2. Prérequis Système
+3. Installation des Outils
+4. Compilation du Projet
+5. Exécution des Applications
+6. Guide d'Utilisation
+7. Format des Données
+8. Dépannage
+9. Commandes Résumées
 
-⚠️ POUR LINUX: Ces logiciels sont généralement préinstallés ou disponibles
-   via le gestionnaire de paquets de votre distribution
-
-
-📦 ÉTAPE 1: METTRE À JOUR MSYS2
+================================================================================
+1. INTRODUCTION
 ================================================================================
 
-Exécutez ces commandes dans le terminal MSYS2:
+Ce projet est une application de gestion des étudiants développée en C dans
+le cadre du cours de Programmation Avancée à l'USTM.
 
-1. Mettre à jour la base de données des paquets:
+L'application propose deux interfaces :
+- Version Console (CMD) : Interface en ligne de commande
+- Version Graphique (GUI) : Interface utilisant GTK+ 3.0
+
+Les données sont stockées dans un fichier CSV pour la persistance.
+
+================================================================================
+2. PRÉREQUIS SYSTÈME
+================================================================================
+
+2.1 Système d'exploitation
+--------------------------
+- Windows 10 ou supérieur (avec MSYS2)
+- Linux (Debian/Ubuntu, Fedora, Arch, openSUSE)
+- macOS (adaptation des commandes nécessaire)
+
+2.2 Logiciels requis
+--------------------
+| Logiciel      | Description                          | Windows       | Linux              |
+|---------------|--------------------------------------|---------------|--------------------|
+| GCC           | Compilateur C                        | MSYS2         | gcc                |
+| Make          | Outil de compilation                | MSYS2         | make               |
+| pkg-config    | Gestionnaire de configuration       | MSYS2         | pkg-config         |
+| GTK+ 3.0      | Bibliothèque graphique (pour GUI)   | MSYS2         | libgtk-3-dev       |
+
+2.3 Ressources minimales
+------------------------
+- Espace disque : ~200 MB
+- Mémoire RAM : 512 MB minimum
+- Processeur : 64 bits recommandé
+
+================================================================================
+3. INSTALLATION DES OUTILS
+================================================================================
+
+3.1 Windows avec MSYS2
+----------------------
+
+Étape 1 : Télécharger et installer MSYS2
+   - Rendez-vous sur https://www.msys2.org/
+   - Téléchargez l'installateur (msys2-x86_64-*.exe)
+   - Exécutez l'installateur avec les paramètres par défaut
+
+Étape 2 : Lancer MSYS2
+   - Ouvrez "MSYS2 MinGW 64-bit" depuis le menu Démarrer
+
+Étape 3 : Mettre à jour MSYS2
    $ pacman -Syu
-
-   Répondez 'y' à toutes les questions et attendez que cela se termine.
-   La fenêtre peut se fermer - c'est normal. Relancez MSYS2.
-
-2. Deuxième mise à jour (parfois nécessaire):
+   # Répondez 'y' et attendez
+   # La fenêtre peut se fermer - relancez MSYS2
    $ pacman -Syu
+   # Répétez jusqu'à "there is nothing to do"
 
-   Attendez jusqu'à "there is nothing to do".
-
-
-🛠️ ÉTAPE 2: INSTALLER LE COMPILATEUR GCC
-================================================================================
-
-Installer le toolchain complet MinGW-w64:
-
+Étape 4 : Installer le compilateur GCC
    $ pacman -S mingw-w64-x86_64-toolchain
+   # Répondez 'y' à toutes les questions
+   # Durée : 5-10 minutes
 
-   ⏱️ Cela prendra 5-10 minutes. Répondez 'y' quand demandé.
-   
-   Cela installe automatiquement:
-   ✓ gcc (compilateur C/C++)
-   ✓ gdb (débogeur)
-   ✓ make (outil de build)
-   ✓ binutils (utilitaires)
-
-
-📚 ÉTAPE 3: INSTALLER GTK+ 3.0 (POUR LA VERSION GUI)
-================================================================================
-
-Si vous voulez compiler la VERSION GRAPHIQUE UNIQUEMENT:
-
+Étape 5 : Installer GTK+ 3.0 (pour la version GUI)
    $ pacman -S mingw-w64-x86_64-gtk3
    $ pacman -S mingw-w64-x86_64-pkg-config
 
-✓ GTK+ est la bibliothèque graphique (interface windows)
-✓ pkg-config aide à trouver les en-têtes et bibliothèques
-
-
-✅ ÉTAPE 4: VÉRIFIER L'INSTALLATION
-================================================================================
-
-Vérifier que tout est bien installé:
-
+Étape 6 : Vérifier l'installation
    $ gcc --version
-   → Doit afficher: gcc (GCC) version ... (par exemple 13.2.0)
-
+   # Doit afficher : gcc (GCC) version x.x.x
    $ pkg-config --modversion gtk+-3.0
-   → Doit afficher: 3.x.x (version GTK+)
-
-   ✓ Si vous voyez les versions, tout est OK!
-   ✗ Si erreur "command not found", relancer les étapes précédentes
+   # Doit afficher : 3.x.x
 
 
-📂 ÉTAPE 5: NAVIGUER AU RÉPERTOIRE DU PROJET
+3.2 Linux - Debian/Ubuntu
+-------------------------
+
+   $ sudo apt update
+   $ sudo apt install gcc make pkg-config libgtk-3-dev
+   $ gcc --version
+   $ pkg-config --modversion gtk+-3.0
+
+
+3.3 Linux - Fedora/RHEL/CentOS
+-------------------------------
+
+   $ sudo dnf install gcc make pkg-config gtk3-devel
+   $ gcc --version
+   $ pkg-config --modversion gtk+-3.0
+
+
+3.4 Linux - Arch Linux
+----------------------
+
+   $ sudo pacman -S gcc make pkg-config gtk3
+   $ gcc --version
+   $ pkg-config --modversion gtk+-3.0
+
+
+3.5 Linux - openSUSE
+--------------------
+
+   $ sudo zypper install gcc make pkg-config gtk3-devel
+   $ gcc --version
+   $ pkg-config --modversion gtk+-3.0
+
+================================================================================
+4. COMPILATION DU PROJET
 ================================================================================
 
-Depuis le terminal MSYS2:
+4.1 Navigation vers le projet
+----------------------------
 
-   # Exemple (adapter votre chemin):
-   $ cd /c/Users/DELL/Documents/USTM/DUT2-GRT/S1/Programmation_avances/projet/gestion_etudiants
+   # Windows (MSYS2)
+   $ cd /c/Users/VOTRE_NOM/Documents/USTM/DUT2-GRT/S1/Programmation_avances/projet/gestion_etudiants
 
-   # Vérifier que vous êtes au bon endroit:
+   # Linux
+   $ cd /home/VOTRE_NOM/Documents/USTM/DUT2-GRT/S1/Programmation_avances/projet/gestion_etudiants
+
+   # Vérifier le contenu
    $ ls
-   → Doit afficher: CMD_gestion/  GUI_gestion/  README.md  help.txt
+   # Doit afficher : CMD_gestion/  GUI_gestion/  functions/  libs/  data/  makefile  README.md
 
 
-🔨 COMPILATION
-================================================================================
+4.2 Utilisation du Makefile (Recommandé)
+-----------------------------------------
 
-═══════════════════════════════════════════════════════════════════════════════
-A) VERSION CONSOLE (CMD) - Pas de dépendances externes
-═══════════════════════════════════════════════════════════════════════════════
+Compiler les deux versions :
+   $ make all
 
-Aller dans le répertoire CMD_gestion:
+Compiler uniquement la version console :
+   $ make cmd
+
+Compiler uniquement la version GUI :
+   $ make gui
+
+Nettoyer les fichiers compilés :
+   $ make clean
+
+Voir l'aide :
+   $ make help
+
+
+4.3 Compilation manuelle - Version Console
+----------------------------------------
+
+   # Windows
    $ cd CMD_gestion
+   $ gcc -Wall -Wextra -std=c99 -I../libs \
+       ../functions/etudiant.c \
+       ../functions/fonctions.c \
+       ../functions/banner.c \
+       CMD_gestion_etudiants.c \
+       -o cmd_gestion_etudiants.exe
 
-Compiler les fichiers:
-   $ gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
+   # Linux (sans extension .exe)
+   $ cd CMD_gestion
+   $ gcc -Wall -Wextra -std=c99 -I../libs \
+       ../functions/etudiant.c \
+       ../functions/fonctions.c \
+       ../functions/banner.c \
+       CMD_gestion_etudiants.c \
+       -o cmd_gestion_etudiants
 
-Ou avec options complètes (recommandé):
-   $ gcc -Wall -Wextra -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
-
-Explications:
-   ✓ -Wall -Wextra : Affiche tous les avertissements (pour déboguer)
-   ✓ -o : Spécifie le nom du fichier exécutable
-   ✓ Les trois fichiers .c doivent être compilés ensemble
-
-✓ RÉSULTAT: gestion_etudiants.exe est créé
+Options de compilation :
+   -Wall -Wextra  : Affiche tous les avertissements
+   -std=c99       : Utilise le standard C99
+   -I../libs      : Chemin vers les fichiers d'en-tête
+   -o             : Nom du fichier de sortie
 
 
-═══════════════════════════════════════════════════════════════════════════════
-B) VERSION GRAPHIQUE (GUI) - Avec GTK+ 3.0
-═══════════════════════════════════════════════════════════════════════════════
+4.4 Compilation manuelle - Version GUI
+--------------------------------------
 
-Aller dans le répertoire GUI_gestion:
-   $ cd ../GUI_gestion
-
-Compiler avec GTK+ (très important d'utiliser les backticks):
-   $ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c \
+   # Windows
+   $ cd GUI_gestion
+   $ gcc -Wall -Wextra -std=c99 -I../libs \
+       ../functions/fonctions.c \
+       ../functions/banner.c \
+       GUI_gestion_etudiants.c \
        `pkg-config --cflags gtk+-3.0` \
-       `pkg-config --libs gtk+-3.0`
+       `pkg-config --libs gtk+-3.0` \
+       -o gui_gestion_etudiants.exe
 
-Ou sur une seule ligne:
-   $ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-
-Explications:
-   ✓ `pkg-config --cflags gtk+-3.0` : Cherche les en-têtes GTK+
-   ✓ `pkg-config --libs gtk+-3.0` : Cherche les bibliothèques GTK+
-   ✓ Les backticks (`) exécutent la commande et insèrent le résultat
-   ✓ Important: utiliser les backticks (`) et non les guillemets (')
-
-✓ RÉSULTAT: gestion_etudiants_gui.exe est créé
-
-
-🚀 EXÉCUTION
-================================================================================
-
-═══════════════════════════════════════════════════════════════════════════════
-VERSION CONSOLE
-═══════════════════════════════════════════════════════════════════════════════
-
-Depuis le répertoire CMD_gestion:
-   $ ./gestion_etudiants.exe
-
-Ou:
-   $ gestion_etudiants.exe
-
-PROCESSUS D'UTILISATION:
-   1. Le programme affiche le nombre d'étudiants existants
-   2. Saisissez les informations du nouvel étudiant
-   3. Le programme vérifie les doublons (matricule unique)
-   4. Trouve automatiquement la position (tri alphabétique)
-   5. Insère l'étudiant et sauvegarde dans le CSV
-   6. Affiche un message de confirmation
-
-
-═══════════════════════════════════════════════════════════════════════════════
-VERSION GRAPHIQUE (GUI)
-═══════════════════════════════════════════════════════════════════════════════
-
-Depuis le répertoire GUI_gestion:
-   $ ./gestion_etudiants_gui.exe
-
-Ou:
-   $ gestion_etudiants_gui.exe
-
-PROCESSUS D'UTILISATION:
-   1. Une fenêtre graphique s'ouvre avec un formulaire
-   2. Remplissez les champs (Nom*, Prénom*, Classe, Matricule*, Email, Sexe)
-      (* = champs obligatoires)
-   3. Cliquez sur le bouton "Insérer"
-   4. Un message de confirmation s'affiche
-   5. Les champs se vident automatiquement
-   6. Cliquez "Quitter" pour fermer l'application
-
-REMARQUE: Ne fermez pas la fenêtre avec le bouton X (utiliser "Quitter")
-
-
-⚠️ DÉPANNAGE RAPIDE
-================================================================================
-
-ERREUR: "command not found: gcc"
-└─ WINDOWS: pacman -S mingw-w64-x86_64-toolchain
-└─ LINUX: sudo apt install gcc
-
-ERREUR: "pkg-config: command not found"
-└─ WINDOWS: pacman -S mingw-w64-x86_64-pkg-config
-└─ LINUX: sudo apt install pkg-config
-
-ERREUR: "cannot find -lgtk-3"
-└─ WINDOWS: pacman -S mingw-w64-x86_64-gtk3
-└─ LINUX: sudo apt install libgtk-3-dev
-
-ERREUR: "gestion_etudiants_gui.exe: cannot access gtk library"
-└─ SOLUTION: Vérifier les backticks (`) dans la commande gcc
-
-ERREUR: "Etudiants.csv: permission denied"
-└─ SOLUTION: Vérifier les droits d'accès ou lancer en admin
-
-Le programme ne créé pas de CSV
-└─ SOLUTION: Vérifier que le répertoire existe et est accessible
-
-ERREUR: "Permission denied" (Linux - exécuter)
-└─ SOLUTION: chmod +x gestion_etudiants
-
-
-🧹 NETTOYAGE
-================================================================================
-
-Supprimer les fichiers compilés (pour recompiler à zéro):
-
-VERSION CONSOLE:
-   $ cd CMD_gestion
-   $ rm gestion_etudiants.exe
-
-VERSION GRAPHIQUE:
+   # Linux (sans extension .exe)
    $ cd GUI_gestion
-   $ rm gestion_etudiants_gui.exe
+   $ gcc -Wall -Wextra -std=c99 -I../libs \
+       ../functions/fonctions.c \
+       ../functions/banner.c \
+       GUI_gestion_etudiants.c \
+       `pkg-config --cflags gtk+-3.0` \
+       `pkg-config --libs gtk+-3.0` \
+       -o gui_gestion_etudiants
 
-Supprimer les fichiers CSV (base de données):
-   $ rm Etudiants.csv
-   (Une nouvelle base sera créée à la prochaine exécution)
+Explication des options :
+   `pkg-config --cflags gtk+-3.0`  : Chemins des en-têtes GTK+
+   `pkg-config --libs gtk+-3.0`    : Bibliothèques GTK+ à lier
+   Les backticks (`) exécutent la commande et insèrent le résultat
 
-Supprimer TOUS les fichiers temporaires et exécutables:
-   $ cd ..
-   $ rm CMD_gestion/gestion_etudiants.exe
-   $ rm GUI_gestion/gestion_etudiants_gui.exe
-   $ rm CMD_gestion/Etudiants.csv
-   $ rm GUI_gestion/Etudiants.csv
-
-
-📊 STRUCTURE DES DONNÉES CSV
+================================================================================
+5. EXÉCUTION DES APPLICATIONS
 ================================================================================
 
-Format: nom;prenom;classe;email;matricule;sex
+5.1 Lancer la version Console
+-----------------------------
 
-Exemple:
-   Dupont;Jean;L1;jean@example.com;MAT001;M
-   Martin;Marie;L2;marie@example.com;MAT002;F
-
-Remarques:
-   ✓ Les matricules DOIVENT être uniques
-   ✓ Les champs sont ordonnés alphabétiquement par NOM
-   ✓ Les champs contenant des ; doivent être entourés de guillemets
-   ✓ Les guillemets doubles "" représentent un guillemet
-
-
-🎯 RÉSUMÉ DES COMMANDES ESSENTIELLES
-================================================================================
-
-PREMIÈRE INSTALLATION (une seule fois) - WINDOWS:
-   1. pacman -Syu
-   2. pacman -S mingw-w64-x86_64-toolchain
-   3. pacman -S mingw-w64-x86_64-gtk3
-   4. pacman -S mingw-w64-x86_64-pkg-config
-   5. Vérifier: gcc --version et pkg-config --modversion gtk+-3.0
-
-PREMIÈRE INSTALLATION (une seule fois) - LINUX (Debian/Ubuntu):
-   1. sudo apt update
-   2. sudo apt install gcc pkg-config libgtk-3-dev
-   3. Vérifier: gcc --version et pkg-config --modversion gtk+-3.0
-
-COMPILATION CMD (rapide, pas de dépendances):
+   # Windows
    $ cd CMD_gestion
-   # Windows:
-   $ gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
-   # Linux:
-   $ gcc -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c fonctions.c
-   $ ./gestion_etudiants
+   $ ./cmd_gestion_etudiants.exe
 
-COMPILATION GUI (avec GTK+):
+   # Linux
+   $ cd CMD_gestion
+   $ ./cmd_gestion_etudiants
+
+
+5.2 Lancer la version GUI
+-------------------------
+
+   # Windows
    $ cd GUI_gestion
-   # Windows:
-   $ gcc -o gestion_etudiants_gui.exe gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-   # Linux:
-   $ gcc -o gestion_etudiants_gui gestion_etudiants_gui.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-   $ ./gestion_etudiants_gui
+   $ ./gui_gestion_etudiants.exe
 
+   # Linux
+   $ cd GUI_gestion
+   $ ./gui_gestion_etudiants
 
-📚 POUR PLUS D'INFORMATIONS
-================================================================================
-
-Consulter le fichier README.md complet dans le répertoire gestion_etudiants:
-   ✓ Description détaillée du projet
-   ✓ Architecture et algorithmes
-   ✓ Ressources utilisées
-   ✓ Procédure complète de mise en place
-
+Note : Sur Linux, si erreur "Cannot open display", installer Xvfb :
+   $ sudo apt install xvfb
+   $ xvfb-run ./gui_gestion_etudiants
 
 ================================================================================
-                       Dernière mise à jour: Mars 2026
-================================================================================ 
+6. GUIDE D'UTILISATION
+================================================================================
+
+6.1 Version Console - Menu Principal
+------------------------------------
+
+Le menu propose les options suivantes :
+
+   1. Ajouter un étudiant
+      - Saisie des informations (nom, prénom, classe, email, matricule, sexe)
+      - Vérification automatique de l'unicité du matricule
+      - Insertion triée alphabétiquement par nom
+      - Sauvegarde automatique dans le fichier CSV
+
+   2. Afficher tous les étudiants
+      - Liste complète formatée
+      - Tri alphabétique par défaut
+
+   3. Rechercher par nom
+      - Recherche insensible à la casse
+      - Supporte la recherche partielle
+
+   4. Modifier un étudiant
+      - Recherche par matricule
+      - Mise à jour des champs souhaités
+
+   5. Supprimer un étudiant
+      - Suppression par matricule
+      - Confirmation avant suppression
+
+   6. Trier les étudiants
+      - Tri par nom (A-Z ou Z-A)
+      - Tri par classe (A-Z ou Z-A)
+
+   0. Quitter
+      - Sauvegarde automatique
+      - Fermeture du programme
+
+
+6.2 Version GUI - Interface
+---------------------------
+
+Composants de la fenêtre :
+   - 6 champs de saisie :
+     * Nom (obligatoire)
+     * Prénom (obligatoire)
+     * Classe (optionnel)
+     * Email (optionnel)
+     * Matricule (obligatoire, unique)
+     * Sexe (optionnel)
+   - Bouton "Insérer" : Ajoute l'étudiant
+   - Bouton "Afficher" : Affiche tous les étudiants
+   - Bouton "Rechercher" : Recherche par nom
+   - Bouton "Modifier" : Modifie un étudiant
+   - Bouton "Supprimer" : Supprime un étudiant
+   - Bouton "Trier" : Outils de tri
+   - Bouton "Quitter" : Ferme l'application
+
+================================================================================
+7. FORMAT DES DONNÉES
+================================================================================
+
+7.1 Structure du fichier CSV
+----------------------------
+
+Emplacement : data/Etudiants.csv
+
+Format : nom;prenom;classe;email;matricule;sex
+
+Exemple :
+   Dupont;Jean;L1 Info;jean.dupont@etud.ustm.fr;MAT2024001;M
+   Martin;Marie;L2 Info;marie.martin@etud.ustm.fr;MAT2024002;F
+
+
+7.2 Caractères spéciaux
+------------------------
+
+| Caractère dans les données | Représentation CSV      |
+|---------------------------|------------------------|
+| Point-virgule (;)         | "Nom;Particule"        |
+| Guillemet (")             | "" (doublé)            |
+
+
+7.3 Limites
+-----------
+
+- Nombre maximum d'étudiants : 1000 (MAX_STUD)
+- Longueur maximale d'un champ : 128 caractères (MAX_CHAMP)
+- Longueur maximale d'une ligne : 512 caractères (MAX_LIGNE)
+
+================================================================================
+8. DÉPANNAGE
+================================================================================
+
+8.1 Erreurs de compilation
+-------------------------
+
+ERREUR : "gcc: command not found"
+   Windows : pacman -S mingw-w64-x86_64-toolchain
+   Linux   : sudo apt install gcc
+
+ERREUR : "pkg-config: command not found"
+   Windows : pacman -S mingw-w64-x86_64-pkg-config
+   Linux   : sudo apt install pkg-config
+
+ERREUR : "cannot find -lgtk-3"
+   Windows : pacman -S mingw-w64-x86_64-gtk3
+   Linux   : sudo apt install libgtk-3-dev
+
+ERREUR : "undefined reference to `gtk_*'"
+   Cause  : Options GTK+ mal configurées
+   Solution : Vérifier l'utilisation des backticks (`)
+
+
+8.2 Erreurs d'exécution
+-----------------------
+
+ERREUR : "Permission denied"
+   Solution : chmod +x nom_executable
+
+ERREUR : "Cannot open display" (Linux)
+   Cause  : Pas de serveur X
+   Solution : xvfb-run ./gui_gestion_etudiants
+
+ERREUR : "Etudiants.csv: Permission denied"
+   Cause  : Droits d'écriture insuffisants
+   Solution : Vérifier les permissions du répertoire data/
+
+
+8.3 Comportements inattendus
+----------------------------
+
+Le fichier CSV n'est pas créé :
+   - Vérifier que le répertoire data/ existe
+   - Vérifier les droits d'écriture
+
+Les accents s'affichent mal :
+   - Vérifier l'encodage du terminal (UTF-8 recommandé)
+   - MSYS2 : export LANG=fr_FR.UTF-8
+
+================================================================================
+9. COMMANDES RÉSUMÉES
+================================================================================
+
+9.1 Installation rapide - Windows
+----------------------------------
+   $ pacman -Syu
+   $ pacman -S mingw-w64-x86_64-toolchain
+   $ pacman -S mingw-w64-x86_64-gtk3
+   $ pacman -S mingw-w64-x86_64-pkg-config
+
+
+9.2 Installation rapide - Linux (Debian/Ubuntu)
+------------------------------------------------
+   $ sudo apt update
+   $ sudo apt install gcc make pkg-config libgtk-3-dev
+
+
+9.3 Compilation et exécution
+----------------------------
+
+   # Compiler (makefile)
+   $ make all
+
+   # Exécuter la version console
+   $ ./cmd_gestion_etudiants
+
+   # Exécuter la version GUI
+   $ ./gui_gestion_etudiants
+
+   # Nettoyer
+   $ make clean
+
+
+9.4 Fichiers importants
+-----------------------
+
+   README.md    : Documentation complète du projet
+   help.txt    : Ce guide d'aide
+   makefile    : Script de compilation automatique
+   data/       : Répertoire contenant les données CSV
+
+================================================================================
+
+Pour plus d'informations, consultez le fichier README.md complet.
+
+================================================================================
+                    Dernière mise à jour : Mars 2026
+================================================================================
 

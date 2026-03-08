@@ -1,877 +1,487 @@
-# Système de Gestion des Étudiants (Student Management System)
+# Système de Gestion des Étudiants
 
-## Table des matières
-
-1. [Description du projet](#-description-du-projet)
-2. [Structure du projet](#-structure-du-projet)
-3. [Ressources utilisées](#-ressources-utilisées)
-4. [Prérequis système](#-prérequis-système)
-5. [Mise en place de l'environnement](#-mise-en-place-de-lenvironnement)
-6. [Choix techniques](#-choix-techniques)
-7. [Sécurité et Robustesse](#-sécurité-et-Robustesse)
-8. [Compilation et exécution](#-compilation-et-exécution)
-9. [Utilisation](#-utilisation)
-10. [Architecture et algorithmes](#-architecture-et-algorithmes)
-11. [Dépannage](#-dépannage)
-12. [Fichiers importants](#-fichiers-importants)
+## Projet Académique - Programmation Avancée (USTM DUT2-GRT)
 
 ---
 
-## 🎯 Description du projet
+## 📋 Table des Matières
 
-### Objectif général
-
-Ce projet implémente un système complet de gestion d'étudiantsen C, offrant deux interfaces différentes :
-
-- **Version Console (CMD)** :
-
-Interface en ligne de commande avec support des couleurs ANSI
-
-- **Version Graphique (GUI)** : Interface graphique utilisant la bibliothèque GTK+ 3.0
-
-### Fonctionnalités principales
-
-- [x] **Insertion d'étudiants triés** - Les étudiants sont automatiquement insérés en ordre alphabétique par nom  
-- [x] **Gestion des fichiers CSV** - Sauvegarde persistante dans un fichier CSV  
-- [x] **Validation des données** - Vérification des doublons (matricule unique)  
-- [x] **Recherche binaire** - O(log n) pour trouver la position d'insertion optimale  
-- [x] **Gestion des erreurs** - Messages d'erreur détaillés et codes d'erreur appropriés  
-- [x] **Interface colorée** (CMD) - Utilisation des codes d'échappement ANSI pour la lisibilité  
-- [x] **Interface graphique** (GUI) - Formulaire intuitif avec boîtes de dialogue  
-
-### Données gérées par étudiant
-
-- **Nom** (obligatoire)
-- **Prénom** (obligatoire)
-- **Classe** (optionnel)
-- **Email** (optionnel)
-- **Matricule** (obligatoire, unique)
-- **Sexe** (optionnel)
+1. [Présentation Générale](#1-présentation-générale)
+2. [Objectifs Pédagogiques](#2-objectifs-pédagogiques)
+3. [Fonctionnalités Implémentées](#3-fonctionnalités-implémentées)
+4. [Architecture du Projet](#4-architecture-du-projet)
+5. [Structure de Données](#5-structure-de-données)
+6. [Algorithmes Utilisés](#6-algorithmes-utilisés)
+7. [Complexité Algorithmique](#7-complexité-algorithmique)
+8. [Technologies et Outils](#8-technologies-et-outils)
+9. [Installation et Compilation](#9-installation-et-compilation)
+10. [Guide d'Utilisation](#10-guide-dutilisation)
+11. [Format des Données](#11-format-des-données)
+12. [Sécurité et Robustesse](#12-sécurité-et-robustesse)
+13. [Améliorations Possibles](#13-améliorations-possibles)
+14. [Auteurs et Contexte](#14-auteurs-et-contexte)
 
 ---
 
-## 📁 Structure du projet
+## 1. Présentation Générale
 
-```python
+Ce projet est une application de **gestion des étudiants** développée en langage C dans le cadre du cours de **Programmation Avancée** à l'USTM (Université des Sciences et Techniques de Masuku).
+
+L'application offre deux interfaces distinctes pour la gestion d'une base de données d'étudiants :
+
+- **Version Console (CMD)** : Interface en ligne de commande avec support des couleurs ANSI pour une meilleure lisibilité.
+- **Version Graphique (GUI)** : Interface graphique moderne utilisant la bibliothèque **GTK+ 3.0**.
+
+Les données sont persistées dans un fichier au format **CSV** (Comma-Separated Values), permettant une manipulation facile et un échanges avec d'autres logiciels tableurs.
+
+---
+
+## 2. Objectifs Pédagogiques
+
+Ce projet a été conçu pour démontrer la maîtrise de plusieurs concepts fondamentaux de la programmation en C :
+
+| Compétence                   | Description                                                                      |
+| ---------------------------- | -------------------------------------------------------------------------------- |
+| **Programmation modulaire**  | Séparation du code en plusieurs fichiers (.c/.h) pour une meilleure organisation |
+| **Structures de données**    | Utilisation de structures (struct) pour représenter les entités                  |
+| **Allocation mémoire**       | Manipulation de tableaux dynamiques et statiques                                 |
+| **Gestion de fichiers**      | Lecture/Écriture de fichiers CSV avec parsing complexe                           |
+| **Algorithmes de recherche** | Implémentation de la recherche binaire et linéaire                               |
+| **Interfaces utilisateur**   | Développement d'interfaces console et graphique                                  |
+| **Makefile**                 | Automatisation de la compilation avec gestion des dépendances                    |
+
+---
+
+## 3. Fonctionnalités Implémentées
+
+### 3.1 Fonctionnalités Communes (CMD et GUI)
+
+| Fonctionnalité                         | Description                                                            |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| ➕ **Insertion d'un étudiant**         | Ajout d'un nouvel étudiant avec tri automatique par ordre alphabétique |
+| 📋 **Affichage de tous les étudiants** | Liste complète de la base de données avec formatage soigné             |
+| 🔍 **Recherche par nom**               | Recherche insensible à la casse (recherche partielle supportée)        |
+| ✏️ **Modification d'un étudiant**      | Modification des informations via le matricule unique                  |
+| 🗑️ **Suppression d'un étudiant**       | Suppression d'un étudiant par son matricule                            |
+| ↕️ **Tri des étudiants**               | Tri par nom ou par classe (croissant/décroissant)                      |
+
+### 3.2 Données Gérées par Étudiant
+
+Chaque étudiant possède les champs suivants :
+
+- **Nom** (obligatoire) - Maximum 128 caractères
+- **Prénom** (obligatoire) - Maximum 128 caractères
+- **Classe** (optionnel) - Maximum 128 caractères
+- **Email** (optionnel) - Maximum 128 caractères
+- **Matricule** (obligatoire, unique) - Identifiant unique de l'étudiant
+- **Sexe** (optionnel) - Maximum 128 caractères
+
+### 3.3 Caractéristiques Techniques
+
+- ✅ Insertion triée automatique (maintien de l'ordre alphabétique)
+- ✅ Validation des données (matricule unique)
+- ✅ Recherche binaire pour l'optimisation de l'insertion (O(log n))
+- ✅ Gestion des erreurs et messages explicites
+- ✅ Interface console colorée (codes ANSI)
+- ✅ Interface graphique intuitive (GTK+ 3.0)
+- ✅ Support des guillemets dans les fichiers CSV
+
+---
+
+## 4. Architecture du Projet
+
+### 4.1 Structure des Fichiers
+
+```text
 gestion_etudiants/
-├── 📝 README.md                         # Ce fichier
-├── 📄 help.txt                          # Guide d'installation rapide
-├── 📄 test.c                            # Fichier de test
 │
-├── 📁 CMD_gestion/                     # Version Console
-│   ├── 📄 CMD_gestion_etudiants.c      # Programme principal (CMD)
-│   ├── 📄 etudiant.c                   # Implémentation des opérations sur étudiants
-│   ├── 📄 fonctions.c                  # Implémentation des fonctions utilitaires
-│   ├── 📄 Etudiants.csv                # Fichier de données (créé automatiquement)
-│   └── 📁 lib/
-│       ├── ⚡ couleurs.h               # Codes ANSI pour les couleurs
-│       ├── ⚡ etudiant.h               # Définition de la structure Etudiant
-│       └── ⚡ fonctions.h              # Déclarations des fonctions
+├── 📁 CMD_gestion/                    # Version Console
+│   └── CMD_gestion_etudiants.c        # Programme principal CMD
 │
-└── 📁 GUI_gestion/                     # Version Graphique
-    ├── 📄 GUI_gestion_etudiants.c      # Programme principal (GUI avec GTK+)
-    ├── 📄 gestion_etudiants_gui.c      # Fichier alternate du GUI
-    ├── 📄 fonctions.c                  # Implémentation partagée
-    ├── 🎨 style.css                    # Styles personnalisés GTK+
-    ├── Etudiants.csv                   # Fichier de données (créé automatiquement)
-    └── 📁 lib/
-        ├── ⚡etudiant.h                # Définition de la structure Etudiant
-        └── ⚡fonctions.h               # Déclarations des fonctions
+├── 📁 GUI_gestion/                     # Version Graphique
+│   ├── GUI_gestion_etudiants.c         # Programme principal GUI (GTK+)
+│   └── style.css                       # Styles personnalisés GTK+
+│
+├── 📁 functions/                       # Fonctions partagées
+│   ├── fonctions.c                      # Implémentation des fonctions utilitaires
+│   ├── etudiant.c                       # Fonctions de saisie/affichage
+│   └── banner.c                         # Messages de bienvenue/bannières
+│
+├── 📁 libs/                            # Bibliothèques (headers)
+│   ├── fonctions.h                     # Déclarations des fonctions
+│   ├── etudiant.h                      # Définition de la structure Etudiant
+│   ├── couleurs.h                      # Codes ANSI pour les couleurs
+│   └── banner.h                        # Déclarations des bannières
+│
+├── 📁 data/                            # Données
+│   └── Etudiants.csv                   # Base de données (généré automatiquement)
+│
+├── 📄 makefile                         # Script de compilation
+├── 📄 README.md                        # Documentation principale
+└── 📄 a_faire.md                       # Liste des fonctionnalités implémentées
+```
+
+### 4.2 Architecture Modulaire
+
+Le projet suit une architecture en couches :
+
+```text
+┌─────────────────────────────────────────┐
+│           Interface Utilisateur         │
+│        (CMD Console / GUI GTK+)         │
+└──────────────────┬──────────────────────┘
+                   │
+┌──────────────────▼──────────────────────┐
+│           Logique Métier                │
+│  (Insertion, Recherche, Tri, Suppression)│
+└──────────────────┬──────────────────────┘
+                   │
+┌──────────────────▼──────────────────────┐
+│         Gestion des Données             │
+│     (Lecture/Écriture CSV, Parsing)     │
+└──────────────────┬──────────────────────┘
+                   │
+┌──────────────────▼──────────────────────┐
+│         Structure de Données            │
+│           (Tableau d'Étudiants)         │
+└─────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔧 Ressources utilisées
+## 5. Structure de Données
 
-### Langages et outils
+### 5.1 Structure Etudiant
 
-- **Langage C** - C99 (GNU C)
-- **Compilateur** - GCC (MinGW-w64 sur Windows via MSYS2)
-- **Système de gestion de paquets** - MSYS2 Pacman
-- **Outil de configuration** - pkg-config
+```c
+typedef struct {
+    char nom[MAX_CHAMP];      // Nom de l'étudiant
+    char prenom[MAX_CHAMP];   // Prénom de l'étudiant
+    char classe[MAX_CHAMP];   // Classe/Niveau
+    char matricule[MAX_CHAMP]; // Identifiant unique
+    char email[MAX_CHAMP];    // Adresse email
+    char sex[MAX_CHAMP];      // Sexe/Genre
+} Etudiant;
+```
 
-### Bibliothèques utilisées
+### 5.2 Constantes Défines
+
+| Constante   | Valeur               | Description                       |
+| ----------- | -------------------- | --------------------------------- |
+| `MAX_STUD`  | 1000                 | Nombre maximum d'étudiants        |
+| `MAX_CHAMP` | 128                  | Longueur maximale d'un champ      |
+| `MAX_LIGNE` | 512                  | Longueur maximale d'une ligne CSV |
+| `FILENAME`  | "data/Etudiants.csv" | Chemin du fichier de données      |
+
+---
+
+## 6. Algorithmes Utilisés
+
+### 6.1 Recherche Binaire (`cher_pos_ins`)
+
+**Objectif** : Trouver la position d'insertion optimale pour maintenir le tri alphabétique.
+
+**Complexité** : O(log n)
+
+**Principe** :
+
+- Le tableau est maintenu trié par nom
+- La recherche binaire divise récursivement l'intervalle de recherche
+- Retourne l'indice d'insertion où le nouvel étudiant doit être placé
+
+```c
+// Pseudocode simplifié
+gauche = 0, droite = n - 1
+tant que gauche <= droite:
+    milieu = (gauche + droite) / 2
+    si tableau[milieu].nom == nom: return milieu
+    sinon si tableau[milieu].nom < nom: gauche = milieu + 1
+    sinon: droite = milieu - 1
+return gauche  // Position d'insertion
+```
+
+### 6.2 Recherche Linéaire (Détection de Doublons)
+
+**Objectif** : Vérifier l'unicité du matricule avant insertion.
+
+**Complexité** : O(n)
+
+### 6.3 Insertion avec Décalage
+
+**Objectif** : Insérer un nouvel étudiant à la position trouvée tout en décalant les éléments existants.
+
+**Complexité** : O(n) dans le pire des cas
+
+### 6.4 Parsing CSV avec Guillemets
+
+**Objectif** : Analyser correctement les lignes CSV, y compris les champs spéciaux.
+
+**Gestion supportée** :
+
+- Champs simples : `nom;prenom;classe`
+- Champs cités avec séparateurs : `"Nom;Marticule";prenom;classe`
+- Guillemets échappés : `"Nom ""Surnom""";prenom`
+
+---
+
+## 7. Complexité Algorithmique
+
+| Opération            | Complexité | Description                          |
+| -------------------- | ---------- | ------------------------------------ |
+| Recherche binaire    | O(log n)   | Recherche de la position d'insertion |
+| Vérification doublon | O(n)       | Recherche linéaire du matricule      |
+| Insertion triée      | O(n)       | Décalage + insertion                 |
+| Parsing CSV          | O(m)       | Lecture d'une ligne (m = longueur)   |
+| Recherche par nom    | O(n)       | Parcours linéaire (texte partiel)    |
+| Tri (qsort)          | O(n log n) | Tri rapide standard                  |
+
+---
+
+## 8. Technologies et Outils
+
+### 8.1 Langage et Compilateur
+
+- **Langage** : C (standard C99)
+- **Compilateur** : GCC (GNU Compiler Collection)
+- **Outil de build** : Makefile
+
+### 8.2 Bibliothèques
 
 #### Version Console
 
-- **libc** - Bibliothèque standard C (stdio, stdlib, string.h)
-- Standard ANSI C pour I/O et manipulation de chaînes
+- **libc** : Bibliothèque standard C
+  - `stdio.h` : Entrées/sorties
+  - `stdlib.h` : Allocation mémoire, conversions
+  - `string.h` : Manipulation de chaînes
 
 #### Version Graphique
 
-- **GTK+ 3.0** - Bibliothèque graphique
-  - `libgtk-3-0` - Noyau de GTK+
-  - `libgdk-3-0` - Abstraction des opérations graphiques
-  - `libgio-2.0` - Utilitaires de fichiers et E/S
-  - `libglib-2.0` - Bibliothèque de base (structures, listes, etc.)
-  - Support CSS pour la personnalisation
+- **GTK+ 3.0** : Bibliothèque graphique multiplateforme
+  - `libgtk-3-0` : Noyau GTK+
+  - `libgdk-3-0` : Abstraction graphique
+  - `libglib-2.0` : Structures de données
+  - Support CSS pour le stylage
 
-### Formats de données
+### 8.3 Format de Données
 
-- **CSV** (Comma-Separated Values / Semicolon-Separated Values)
-  - Délimiteur: `;` (point-virgule)
-  - Format: `nom;prenom;classe;email;matricule;sex`
-  - Lecture/Écriture avec gestion des guillemets pour champs complexes
+- **CSV** (Comma-Separated Values)
+- Délimiteur : `;` (point-virgule)
+- Encodage : UTF-8 recommandé
 
 ---
 
-## 💻 Prérequis système
+## 9. Installation et Compilation
 
-### Système d'exploitation
+### 9.1 Prérequis
 
-- **Windows 10 ou supérieur** (avec MSYS2 installé)
-- **Linux** (Debian/Ubuntu, Fedora, Arch, openSUSE, etc.)
-- macOS (adaptation possible des commandes de compilation)
-
-### Ressources minimales
-
-- **Disque** : ~200 MB pour MSYS2 et GTK+
-- **RAM** : 512 MB minimum
-- **Processeur** : Processeur 64-bit recommandé
-
-### Logiciels préalables
-
-1. **MSYS2** installé et configuré
-2. **GCC** et toolchain MinGW-w64
-3. **pkg-config** pour la gestion des drapeaux de compilation
-
----
-
-## 🚀 Mise en place de l'environnement
-
-### Étape 1: Installer MSYS2
-
-1. **Télécharger MSYS2**
-   - Visitez <https://www.msys2.org/>
-   - Téléchargez l'installateur 64-bit (`msys2-x86_64-20240113.exe` ou similaire)
-
-2. **Lancer l'installation**
-   - Exécutez l'installateur
-   - Acceptez les paramètres par défaut
-   - Choisissez un dossier d'installation (par défaut: `C:\msys64`)
-
-3. **Lancer MSYS2**
-   - Ouvrez le raccourci **MSYS2 MinGW 64-bit** depuis le menu Démarrer
-   - Une fenêtre de terminal s'ouvrira
-
-### Étape 2: Mettre à jour MSYS2
+#### Windows (avec MSYS2)
 
 ```bash
-# Mettre à jour la base de données des paquets
+# Installer MSYS2 depuis https://www.msys2.org/
+# Dans le terminal MSYS2 MinGW 64-bit :
+
+# Mettre à jour
 pacman -Syu
 
-# Répondez 'y' à toutes les questions
-# La fenêtre peut se fermer à la fin, c'est normal
-# Relancez MSYS2 après la mise à jour
-```
-
-### Étape 3: Installer le compilateur GCC et les outils
-
-```bash
-# Installer le toolchain MinGW-w64 complet
+# Installer GCC et outils
 pacman -S mingw-w64-x86_64-toolchain
 
-# Cela inclut:
-# - gcc (compilateur C/C++)
-# - gdb (débogeur)
-# - make (outil de build)
-# - binutils (utilitaires binaires)
-```
-
-Répondez `y` quand on vous le demande. L'installation prendra quelques minutes.
-
-### Étape 4: Installer GTK+ 3.0 et dépendances
-
-```bash
-# Installer GTK+ 3.0 et toutes ses dépendances
+# Installer GTK+ 3.0
 pacman -S mingw-w64-x86_64-gtk3
-
-# Installer également pkg-config (nécessaire pour compiler)
 pacman -S mingw-w64-x86_64-pkg-config
-
-# Vérifier l'installation (optionnel)
-pkg-config --modversion gtk+-3.0
-# Doit afficher: 3.x.x (version de GTK+)
 ```
 
-### Étape 5: Vérifier l'installation
+#### Linux (Debian/Ubuntu)
 
 ```bash
-# Vérifier GCC
-gcc --version
-# Doit afficher: gcc (GCC) version...
-
-# Vérifier pkg-config
-pkg-config --list-all | grep gtk
-# Doit afficher: gtk+-3.0 ...
-
-# Naviguer vers le répertoire du projet
-cd c:/Users/votre_nom_utilisateur/chemin/vers/gestion_etudiants
-```
-
----
-
-### 🐧 Configuration pour Linux
-
-Cette section détaille l'installation des outils nécessaires pour compiler et exécuter le projet sur un système Linux.
-
-#### Option A: Distributions basées sur Debian/Ubuntu
-
-```bash
-# Mettre à jour la liste des paquets
 sudo apt update
-
-# Installer le compilateur GCC
 sudo apt install gcc
-
-# Installer pkg-config
 sudo apt install pkg-config
-
-# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
 sudo apt install libgtk-3-dev
-
-# Vérifier l'installation
-gcc --version
-pkg-config --modversion gtk+-3.0
 ```
 
-#### Option B: Distributions basées sur Fedora/RHEL/CentOS
+#### Linux (Fedora)
 
 ```bash
-# Installer le compilateur GCC
 sudo dnf install gcc
-
-# Installer pkg-config
 sudo dnf install pkg-config
-
-# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
 sudo dnf install gtk3-devel
-
-# Vérifier l'installation
-gcc --version
-pkg-config --modversion gtk+-3.0
 ```
 
-#### Option C: Distributions basées sur Arch Linux
+### 9.2 Compilation avec Makefile
 
 ```bash
-# Installer le compilateur GCC
-sudo pacman -S gcc
+# Compiler les deux versions
+make all
 
-# Installer pkg-config
-sudo pacman -S pkg-config
-
-# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
-sudo pacman -S gtk3
-
-# Vérifier l'installation
-gcc --version
-pkg-config --modversion gtk+-3.0
-```
-
-#### Option D: Distributions basées sur openSUSE
-
-```bash
-# Installer le compilateur GCC
-sudo zypper install gcc
-
-# Installer pkg-config
-sudo zypper install pkg-config
-
-# Installer GTK+ 3.0 et ses dépendances (pour la version GUI)
-sudo zypper install gtk3-devel
-
-# Vérifier l'installation
-gcc --version
-pkg-config --modversion gtk+-3.0
-```
-
-#### Navigation vers le répertoire du projet (Linux)
-
-```bash
-# Naviguer vers le répertoire du projet
-cd /home/votre_nom_utilisateur/chemin/vers/gestion_etudiants
-
-# Vérifier que vous êtes au bon endroit
-ls
-# Doit afficher: CMD_gestion/  GUI_gestion/  README.md  help.txt
-```
-
----
-
-## ⚙️ Choix Techniques
-
-### 📄 Pourquoi CSV ?
-
-- Format simple et portable
-- Pas de dépendances externes
-- Facilement éditable
-- Suffisant pour un projet académique
-
-### 🔎 Pourquoi Recherche Binaire ?
-
-- Complexité : **O(log n)**
-- Maintien du tri automatique
-- Optimisation des performances
-
-### 🖥 Pourquoi GTK+ 3 ?
-
-- Bibliothèque mature
-- Portable (Windows / Linux)
-- Support CSS intégré
-
----
-
-## 📊 Complexité Algorithmique
-
-| Fonction | Complexité |
-| ---------- | ------------ |
-| Recherche binaire | O(log n) |
-| Vérification doublon | O(n) |
-| Insertion triée | O(n) |
-| Parsing CSV | O(m) |
-
----
-
-## 🔐 Sécurité & Robustesse
-
-- ✔ Limitation taille buffers (`MAX_CHAMP`)
-- ✔ Protection contre overflow
-- ✔ Vérification des fichiers (`NULL`)
-- ✔ Validation des entrées utilisateur
-- ✔ Gestion des erreurs système
-- ✔ Messages d'erreurs explicites
-
----
-
-## 🔨 Compilation et exécution
-
-### Utilisation de Makefile (recommandé)
-
-Si un fichier `Makefile` est présent dans le répertoire racine, vous pouvez compiler facilement :
-
-```bash
-# Compiler la version Console
+# Compiler uniquement la version console
 make cmd
 
-# Compiler la version Graphique
+# Compiler uniquement la version GUI
 make gui
 
 # Nettoyer les fichiers compilés
 make clean
 ```
 
-### ⚠️ Note importante pour Linux
+### 9.3 Compilation Manuelle
 
-Sur Linux, les exécutables n'ont pas besoin de l'extension `.exe`. Utilisez simplement `gestion_etudiants` au lieu de `gestion_etudiants.exe`.
-
-### Version Console (CMD)
-
-#### Compilation-cmd (Windows)
+#### Version Console
 
 ```bash
-# Naviguer vers le répertoire CMD_gestion
-cd CMD_gestion
-
-# Compiler tous les fichiers ensemble
-gcc -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
-
-# Ou avec GCC compilé pour Windows (compilation optimisée)
-gcc -Wall -g -o gestion_etudiants.exe CMD_gestion_etudiants.c etudiant.c fonctions.c
+gcc -Wall -Wextra -std=c99 -I./libs \
+    CMD_gestion/CMD_gestion_etudiants.c \
+    functions/etudiant.c \
+    functions/fonctions.c \
+    functions/banner.c \
+    -o cmd_gestion_etudiants
 ```
 
-#### Compilation-cmd (Linux)
+#### Version GUI
 
 ```bash
-# Naviguer vers le répertoire CMD_gestion
-cd CMD_gestion
-
-# Compiler tous les fichiers ensemble (sans extension .exe)
-gcc -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c fonctions.c
-
-# Ou avec options complètes (recommandé)
-gcc -Wall -Wextra -o gestion_etudiants CMD_gestion_etudiants.c etudiant.c fonctions.c
-```
-
-**Explication des options gcc:**
-
-- `-o gestion_etudiants` : Nom du fichier exécutable (sans .exe sur Linux)
-- `-Wall -Wextra` : Afficher tous les avertissements (optionnel mais recommandé)
-- `-g` : Inclure les informations de débogage (optionnel)
-
-#### Exécution-cmd (Windows)
-
-```bash
-# Lancer le programme
-./gestion_etudiants.exe
-
-# Ou directement
-gestion_etudiants.exe
-```
-
-#### Exécution-cmd (Linux)
-
-```bash
-# Lancer le programme
-./gestion_etudiants
-
-# Si le fichier n'est pas exécutable, rendez-le exécutable
-chmod +x gestion_etudiants
-./gestion_etudiants
-```
-
-Le programme affichera un menu de bienvenue et vous demandera les informations de l'étudiant.
-
-#### Processus d'utilisation (CMD)
-
-```text
-1. Affichage du nombre d'étudiants existants
-2. Saisie des informations du nouvel étudiant
-3. Vérification de l'unicité du matricule
-4. Insertion triée dans le fichier CSV
-5. Message de confirmation ou d'erreur
-```
-
----
-
-### Version Graphique (GUI)
-
-#### Compilation (Windows)
-
-```bash
-# Naviguer vers le répertoire GUI_gestion
-cd GUI_gestion
-
-# Compiler avec GTK+ 3.0
-gcc -o GUI_gestion_etudiants.exe GUI_gestion_etudiants.c fonctions.c \
+gcc -Wall -Wextra -std=c99 -I./libs \
+    GUI_gestion/GUI_gestion_etudiants.c \
+    functions/fonctions.c \
+    functions/banner.c \
     `pkg-config --cflags gtk+-3.0` \
-    `pkg-config --libs gtk+-3.0`
-
-# Ou sur une seule ligne
-gcc -o GUI_gestion_etudiants.exe GUI_gestion_etudiants.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-```
-
-#### Compilation (Linux)
-
-```bash
-# Naviguer vers le répertoire GUI_gestion
-cd GUI_gestion
-
-# Compiler avec GTK+ 3.0 (sans extension .exe)
-gcc -o GUI_gestion_etudiants GUI_gestion_etudiants.c fonctions.c \
-    `pkg-config --cflags gtk+-3.0` \
-    `pkg-config --libs gtk+-3.0`
-
-# Ou sur une seule ligne
-gcc -o GUI_gestion_etudiants GUI_gestion_etudiants.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-
-# Avec options supplémentaires (recommandé)
-gcc -Wall -Wextra -o GUI_gestion_etudiants GUI_gestion_etudiants.c fonctions.c `pkg-config --cflags gtk+-3.0 --libs gtk+-3.0`
-```
-
-**Explication:**
-
-- ``pkg-config --cflags gtk+-3.0`` : Inclut les chemins d'en-têtes GTK+
-- ``pkg-config --libs gtk+-3.0`` : Inclut les bibliothèques à lier
-- Les backticks (`) exécutent la commande et insèrent le résultat
-
-#### Exécution (Windows)
-
-```bash
-# Lancer le programme GUI
-./GUI_gestion_etudiants.exe
-```
-
-#### Exécution (Linux)
-
-```bash
-# Lancer le programme GUI
-./GUI_gestion_etudiants
-
-# Si le fichier n'est pas exécutable, rendez-le exécutable
-chmod +x gestion_etudiants_gui
-./GUI_gestion_etudiants
-```
-
-Une fenêtre GTK+ s'ouvrira avec un formulaire de saisie.
-
-**Note importante pour les environnements sans écran (serveur):**
-Si vous exécutez sur un serveur sans interface graphique, vous pouvez:
-
-- Utiliser uniquement la version Console
-- Ou installer un serveur X virtuel comme Xvfb: `sudo apt install xvfb` puis `xvfb-run ./gestion_etudiants_gui`
-
-#### Processus d'utilisation (GUI)
-
-```text
-1. Une fenêtre graphique s'ouvre avec 6 champs de texte
-2. Remplissez les champs (Nom, Prénom, Classe, Matricule, Email, Sexe)
-3. Cliquez sur le bouton "Insérer"
-4. Un message de confirmation/erreur s'affiche
-5. Les champs se vident automatiquement en cas de succès
-6. Cliquez sur "Quitter" pour fermer l'application
+    `pkg-config --libs gtk+-3.0` \
+    -o gui_gestion_etudiants
 ```
 
 ---
 
-## 🏗️ Architecture Modulaire
+## 10. Guide d'Utilisation
 
-Voici la structure modulaire du projet:
+### 10.1 Lancement
+
+#### Version Console
+
+```bash
+./cmd_gestion_etudiants
+```
+
+#### Version GUI
+
+```bash
+./gui_gestion_etudiants
+```
+
+### 10.2 Menu Principal (Console)
 
 ```text
-                ┌───────────────────┐
-                │    Interface      │
-                │  (CMD / GUI)      │
-                └─────────┬─────────┘
-                          ↓
-                ┌───────────────────┐
-                │  Logique Métier   │
-                │  (Insertion,      │
-                │   Recherche)      │
-                └─────────┬─────────┘
-                          ↓
-                ┌───────────────────┐
-                │ Gestion CSV       │
-                │ Lecture / Écriture│
-                └─────────┬─────────┘
-                          ↓
-                ┌───────────────────┐
-                │ Structure Etudiant│
-                └───────────────────┘
+================================================================================
+==                                                                            ==
+==                   GESTION DES ÉTUDIANTS - USTM                             ==
+==                                                                            ==
+================================================================================
+
+                        Nombre d'étudiants: X
+
+                        1. Ajouter un étudiant
+                        2. Afficher tous les étudiants
+                        3. Rechercher par nom
+                        4. Modifier un étudiant
+                        5. Supprimer un étudiant
+                        6. Trier les étudiants
+                        0. Quitter
+
+                        Votre choix :
+```
+
+### 10.3 Exemple d'Utilisation (Console)
+
+```text
+==> Tapez le(s) nom(s)    : Dupont
+==> Tapez le(s) prenom(s) : Jean
+==> Tapez la classe       : L1 Info
+==> Tapez l'email         : jean.dupont@etud.ustm.fr
+==> Tapez le matricule    : MAT2024001
+==> Tapez le sexe         : M
+
+[SUCCÈS] Étudiant inséré en position 3
 ```
 
 ---
 
-## 📖 Utilisation
+## 11. Format des Données
 
-### Format du fichier CSV
-
-Le fichier `Etudiants.csv` est stocké dans le même répertoire que l'exécutable.
-
-**Format attendu:**
+### 11.1 Structure du Fichier CSV
 
 ```csv
 nom;prenom;classe;email;matricule;sex
-Dupont;Jean;L1;jean@example.com;MAT001;M
-Martin;Marie;L1;marie@example.com;MAT002;F
+Dupont;Jean;L1 Info;jean.dupont@etud.ustm.fr;MAT2024001;M
+Martin;Marie;L2 Info;marie.martin@etud.ustm.fr;MAT2024002;F
 ```
 
-**Gestion des guillemets:**
+### 11.2 Gestion des Caractères Spéciaux
 
-- Les champs contenant `;` doivent être entourés de guillemets: `"Nom;Particule";Prenom;...`
-- Les guillemets doubles sont échappés par `""`: `"Nom ""Alias""";...`
-
-### Limites
-
-- **Nombre maximum d'étudiants**: 1000 (MAX_STUD)
-- **Longueur maximale d'un champ**: 128 caractères (MAX_CHAMP)
-- **Longueur maximale d'une ligne CSV**: 512 caractères (MAX_LIGNE)
-
-### Exemple d'utilisation (CMD)
-
-```bash
-##########################################################################
-##                                                                      ##
-##   Bienvenue dans le programme de gestion des etudiants.              ##
-##                                                                      ##
-##########################################################################
-||                                                                      ||
-||  Nombre d'etudiants actuellement dans "test.csv" : 5                 ||
-==========================================================================
-
-Saisis des infos de l'etudiant(e):
-
-==> Tapez le(s) nom(s)    : Leclerc
-==> Tapez le(s) prenom(s) : Pierre
-==> Tapez la classe       : L2
-==> Tapez l'email         : pierre@example.com
-==> Tapez le matricule    : MAT123
-==> Tapez le sexe         : M
-
-Etudiant(e) insere(e) en position 3 et fichier mis à jour (test.csv).
-
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@                                    @@
-@@   Programme terminer !!!.          @@
-@@                                    @@
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-```
+| Caractère dans les données | Représentation CSV |
+| -------------------------- | ------------------ |
+| Point-virgule `;`          | `"Nom;Particule"`  |
+| Guillemet double `"`       | `""` (doublé)      |
 
 ---
 
-## 🏗️ Architecture et algorithmes
+## 12. Sécurité et Robustesse
 
-### Structure de données
+Le code implémente plusieurs mesures de sécurité :
 
-```c
-typedef struct {
-    char nom[128];        // Nom de l'étudiant
-    char prenom[128];     // Prénom de l'étudiant
-    char classe[128];     // Classe/Niveau
-    char matricule[128];  // Identifiant unique
-    char email[128];      // Adresse email
-    char sex[128];        // Sexe/Genre
-} Etudiant;
-```
-
-### Algorithmes implémentés
-
-#### 1. **Recherche binaire** (`cher_pos_ins`)
-
-- **Complexité**: O(log n)
-- **Objectif**: Trouver la position d'insertion pour maintenir le tri alphabétique
-- **Retour**:
-  - Indice si l'élément existe
-  - Position d'insertion sinon (entre 0 et n)
-
-```algobox
-Exemple avec noms: ["Alice", "Bob", "David"]
-- Insérer "Charles" → position 2
-- Tableau devient: ["Alice", "Bob", "Charles", "David"]
-```
-
-#### 2. **Recherche linéaire** (Détection de doublon)
-
-- **Complexité**: O(n)
-- **Objectif**: Vérifier que le matricule n'existe pas déjà
-- **Retour**: Position du doublon ou -1 si absent
-
-#### 3. **Insertion triée avec décalage**
-
-- **Complexité**: O(n) dans le pire cas
-- **Processus**:
-  1. Décaler tous les éléments à droite de la position
-  2. Insérer le nouvel élément à la position correcte
-  3. Incrémenter le compteur
-
-#### 4. **Parsage CSV avec guillemets**
-
-- **Complexité**: O(m) où m = longueur de la ligne
-- **Gestion**:
-  - Champs simples: séparés par `;`
-  - Champs cités: `"..."` peuvent contenir `;`
-  - Guillemets échappés: `""` → `"`
-
-### Flux de données
-
-```flow
-[Fichier CSV] 
-    ↓
-[lire_csv()] → Tableau d'Etudiants en mémoire
-    ↓
-[Saisir nouveau]
-    ↓
-[Vérifier doublon (linéaire)]
-    ↓
-[Trouver position (binaire)]
-    ↓
-[Décaler + Insérer]
-    ↓
-[vers_csv()] → Fichier CSV mis à jour
-```
-
-### Gestion des couleurs (CMD)
-
-Les codes ANSI utilisés (définis dans `couleurs.h`):
-
-- `\033[31m` - Rouge (erreur)
-- `\033[32m` - Vert (succès)
-- `\033[33m` - Jaune (titres)
-- `\033[34m` - Bleu (flèches)
-- `\033[0m` - Réinitialiser (défaut)
-
-### 📊 Complexité Algorithmique
-
-| Fonction | Complexité |
-| ---------- | ------------ |
-| Recherche binaire | O(log n) |
-| Vérification doublon | O(n) |
-| Insertion triée | O(n) |
-| Parsing CSV | O(m) |
+| Mesure                             | Description                                                 |
+| ---------------------------------- | ----------------------------------------------------------- |
+| **Limitation des buffers**         | Tous les champs sont limités à `MAX_CHAMP` (128 caractères) |
+| **Protection overflow**            | Utilisation de `safe_strncpy()` avec vérification de taille |
+| **Vérification des fichiers**      | Contrôle des pointeurs NULL avant accès                     |
+| **Validation des entrées**         | Vérification des données saisies par l'utilisateur          |
+| **Gestion des erreurs**            | Messages d'erreur explicites et codes de retour             |
+| **Parcours de tableaux sécurisés** | Vérification des indices avant accès                        |
 
 ---
 
-## 🐛 Dépannage
+## 13. Améliorations Possibles
 
-### Erreur: "pkg-config: command not found"
+### Fonctionnalités Futures
 
-**Solution (Windows):**
-
-```bash
-pacman -S mingw-w64-x86_64-pkg-config
-```
-
-**Solution (Linux - Debian/Ubuntu):**
-
-```bash
-sudo apt install pkg-config
-```
-
-**Solution (Linux - Fedora):**
-
-```bash
-sudo dnf install pkg-config
-```
-
-**Solution (Linux - Arch):**
-
-```bash
-sudo pacman -S pkg-config
-```
-
-### Erreur: "cannot find -lgtk-3"
-
-**Solution (Windows):**
-
-```bash
-pacman -S mingw-w64-x86_64-gtk3
-# Puis relancer la compilation avec les backticks corrects
-```
-
-**Solution (Linux - Debian/Ubuntu):**
-
-```bash
-sudo apt install libgtk-3-dev
-```
-
-**Solution (Linux - Fedora):**
-
-```bash
-sudo dnf install gtk3-devel
-```
-
-**Solution (Linux - Arch):**
-
-```bash
-sudo pacman -S gtk3
-```
-
-### Erreur: "undefined reference to `gtk_*'"
-
-**Cause**: Les drapeaux GTK+ ne sont pas correctement inclus
-**Solution**: Vérifier la commande de compilation avec backticks
-
-### Erreur: "gcc: command not found"
-
-**Solution (Linux - Debian/Ubuntu):**
-
-```bash
-sudo apt install gcc
-```
-
-**Solution (Linux - Fedora):**
-
-```bash
-sudo dnf install gcc
-```
-
-**Solution (Linux - Arch):**
-
-```bash
-sudo pacman -S gcc
-```
-
-### Le fichier CSV n'est pas créé
-
-**Cause**: Le programme n'a pas la permission d'écrire
-**Solution**: Vérifier les droits d'accès du répertoire ou lancer en tant qu'administrateur
-
-### Interface GTK+ ne s'affiche pas
-
-**Cause**: Variable d'affichage non définie (rare sur Windows)
-**Solution**: Relancer le programme ou installer un serveur X si sur WSL
-
-### Erreur: "Permission denied" lors de l'exécution
-
-**Cause**: Le fichier compilé n'a pas les droits d'exécution
-**Solution (Linux):**
-
-```bash
-chmod +x gestion_etudiants
-chmod +x gestion_etudiants_gui
-```
-
-### Erreur: Cannot open display (serveur sans interface graphique)
-
-**Cause**: Pas de serveur X disponible
-**Solution**: Installer Xvfb pour les environnements sans écran
-
-```bash
-# Debian/Ubuntu
-sudo apt install xvfb
-xvfb-run ./gestion_etudiants_gui
-
-# Fedora
-sudo dnf install xorg-x11-server-Xvfb
-xvfb-run ./gestion_etudiants_gui
-```
-
----
-
-## 📝 Fichiers importants
-
-| Fichier | Description |
-| --------- | ------------- |
-| `CMD_gestion_etudiants.c` | Programme principal console |
-| `GUI_gestion_etudiants.c` | Programme principal GTK+ |
-| `fonctions.c` | Implémentation des opérations (CSV, recherche, etc.) |
-| `etudiant.c` | Implémentation de la saisie et affichage d'étudiant |
-| `couleurs.h` | Définition des codes ANSI pour couleurs |
-| `etudiant.h` | Définition de la structure Etudiant |
-| `fonctions.h` | Déclarations des fonctions |
-| `style.css` | Styles GTK+ personnalisés |
-| `Etudiants.csv` | Base de données persistante (généré à l'exécution) |
-
----
-
-### Apercu
-
-![Interface GUI](images/gui.png)
-![Version Console](images/cmd.png)
-
-## 📚 Améliorations futures possibles
-
-- [ ] Interface web avec HTML/CSS/JavaScript
-- [ ] Base de données SQL (SQLite)
-- [ ] Recherche/Filtrage d'étudiants
-- [ ] Modification/Suppression d'étudiants
-- [ ] Affichage de tous les étudiants
-- [ ] Export en PDF
-- [ ] Multi-utilisateurs avec authentification
-- [ ] Sauvegarde en nuage
+- [ ] Export PDF de la liste des étudiants
+- [ ] Import depuis d'autres formats (Excel, JSON)
+- [ ] Authentification multi-utilisateurs
+- [ ] Sauvegarde automatique dans le cloud
 - [ ] Historique des modifications
+- [ ] Statistiques et graphiques
+
+### Améliorations Techniques
+
+- [ ] Utilisation d'une base de données SQLite
+- [ ] Interface web (HTML/CSS/JavaScript)
+- [ ] Internationalisation (multilingue)
+- [ ] Tests unitaires automatisés
 
 ---
 
-## 👨‍💻 Auteur(s)
+## 14. Auteurs et Contexte
 
-Développement dans le cadre du cours de Programmation Avancée - USTM DUT2-GRT
+### Contexte Académique
 
-## 📄 Licence
+- **Université** : USTM (Université des Sciences et Techniques de Masuku)
+- **Formation** : DUT2-GRT (Diplôme Universitaire de Technologie - Génie Réseaux et Télécommunications)
+- **Semestre** : S1
+- **Cours** : Programmation Avancée
+- **Année** : 2025-2026
 
-Projet académique - Libre d'utilisation à titre éducatif
+### Licence
 
----
-
-## ⭐ Contribution
-
-Les contributions sont les bienvenues ! Vous pouvez :
-
-- Fork le projet
-- Créer des Pull Requests
-- Signaler des problèmes (Issues)
-- Proposer des améliorations
+Ce projet est un travail académique. Il est libre d'utilisation à des fins éducatives.
 
 ---
 
-## 📞 Support
+## Support
 
-Pour toute question ou problème:
+Pour toute question ou problème :
 
-1. Vérifier le fichier [help.txt](help.txt)
-2. Consulter les commentaires détaillés dans le code source
-3. Vérifier que l'environnement MSYS2 est correctement configuré
+1. Consulter le fichier [help.txt](help.txt)
+2. Examiner les commentaires dans le code source
+3. Vérifier la configuration de l'environnement de développement
 
 ---
 
-**Dernière mise à jour**: mars 2026
+**Dernière mise à jour** : Mars 2026
