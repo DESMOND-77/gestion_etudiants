@@ -1,58 +1,308 @@
-/* Style de la fenêtre principale */
+/* =============================================================================
+ * STYLE CSS MODERNE POUR GESTION DES ÉTUDIANTS
+ * =============================================================================
+ * Conception: Style moderne avec dégradés, ombres et animations
+ * Couleurs: Palette moderne bleu/gris avec accents de couleurs
+ */
+
+/* =============================================================================
+ * STYLE GÉNÉRAL - FENÊTRE PRINCIPALE
+ * ============================================================================= */
+
 window {
-  background-color: #57e793;
-  font-family: "Segoe UI", sans-serif;
-  color: black;
+    background-color: #f5f6fa;
+    color: #2c3e50;
+    font-family: "Segoe UI", "Ubuntu", "Cantarell", sans-serif;
+    font-size: 13px;
 }
 
-/* Style de tous les boutons */
-/* #insert_button{
-    background-color: #55e032;
+/* =============================================================================
+ * HEADER BAR (BARRE DE TITRE)
+ * ============================================================================= */
+
+headerbar {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+headerbar title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+headerbar button {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+
+headerbar button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* =============================================================================
+ * NOTEBOOK (ONGLETS)
+ * ============================================================================= */
+
+notebook {
+    background-color: #f5f6fa;
+    border: none;
+}
+
+notebook tab {
+    background-color: #ffffff;
+    color: #7f8c8d;
+    border: 1px solid #dcdde1;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    padding: 10px 20px;
+    margin: 2px 2px 0 2px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+notebook tab:hover {
+    background-color: #6ba3e0;
+    color: white;
+}
+
+notebook tab:checked {
+    background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+    color: white;
+    box-shadow: 0 -2px 8px rgba(74, 144, 217, 0.3);
+    font-weight: 600;
+}
+
+notebook stack {
+    background-color: #ffffff;
+    border: 1px solid #dcdde1;
+    border-radius: 0 8px 8px 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* =============================================================================
+ * ÉTIQUETTES (LABELS)
+ * ============================================================================= */
+
+label {
+    color: #2c3e50;
+    font-family: "Segoe UI", "Ubuntu", sans-serif;
+}
+
+label.title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+/* =============================================================================
+ * CHAMPS DE TEXTE (ENTRY)
+ * ============================================================================= */
+
+entry {
+    background-color: white;
+    color: #2c3e50;
+    border: 2px solid #dcdde1;
     border-radius: 6px;
-    padding: 8px 16px;
-    font-weight: bold;
-} */
+    padding: 10px 12px;
+    transition: all 0.2s ease;
+}
+
+entry:focus {
+    border-color: #4a90d9;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+}
+
+entry:disabled {
+    background-color: #f0f0f0;
+    color: #7f8c8d;
+}
+
+/* =============================================================================
+ * BOUTONS
+ * ============================================================================= */
 
 button {
-  background-image: none;
-  background-color: #2a9d8f;
-  color: white;
-  border-radius: 6px;
-  padding: 8px 16px;
-  font-weight: bold;
+    background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 500;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(74, 144, 217, 0.3);
+    transition: all 0.2s ease;
 }
 
-/* Style d'un bouton au survol */
 button:hover {
-  background-color: #264653;
+    background: linear-gradient(135deg, #6ba3e0 0%, #4a90d9 100%);
+    box-shadow: 0 4px 12px rgba(74, 144, 217, 0.4);
+    transform: translateY(-1px);
 }
 
-/* Style d'un widget avec l'ID spécifique */
-#bouton-principal {
-  background-color: #e76f51;
-  font-size: 1.1em;
+button:active {
+    background: linear-gradient(135deg, #357abd 0%, #4a90d9 100%);
+    box-shadow: 0 1px 3px rgba(74, 144, 217, 0.3);
+    transform: translateY(0);
 }
 
-/* Style via une classe CSS */
-.bouton-important {
-  border: 2px solid #e9c46a;
+/* Bouton Quitter dans headerbar */
+headerbar button {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: none;
 }
 
-/* Style des champs de saisie */
-entry {
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  min-height: 28px;
+headerbar button:hover {
+    background: rgba(255, 255, 255, 0.25);
 }
 
-/* Style d'un champ de saisie quand il a le focus */
-entry:focus {
-  border-color: #2a9d8f;
-  box-shadow: 0 0 0 1px #2a9d8f;
+/* Bouton Ajouter (vert - succès) */
+#btn_ajouter {
+    background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+    box-shadow: 0 2px 6px rgba(39, 174, 96, 0.3);
 }
-Gtklabel {
-  font-size: 1em;
-  margin-bottom: 4px;
+
+#btn_ajouter:hover {
+    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
 }
+
+/* Bouton Modifier (bleu) */
+#btn_modifier {
+    background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+}
+
+#btn_modifier:hover {
+    background: linear-gradient(135deg, #6ba3e0 0%, #4a90d9 100%);
+}
+
+/* Bouton Supprimer (rouge) */
+#btn_supprimer {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
+}
+
+#btn_supprimer:hover {
+    background: linear-gradient(135deg, #e74c3c 0%, #e74c3c 100%);
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+}
+
+/* =============================================================================
+ * TREE VIEW (TABLEAUX - LISTE DES ÉTUDIANTS)
+ * ============================================================================= */
+
+treeview {
+    background-color: white;
+    color: #2c3e50;
+    border: 1px solid #dcdde1;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 12px;
+}
+
+treeview:hover {
+    border-color: #6ba3e0;
+}
+
+/* En-têtes de colonnes */
+treeview header button {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 8px 12px;
+}
+
+treeview row {
+    background-color: white;
+}
+
+treeview row:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+treeview row:hover {
+    background-color: rgba(74, 144, 217, 0.1);
+}
+
+treeview row:selected {
+    background-color: #4a90d9;
+    color: white;
+}
+
+/* =============================================================================
+ * SCROLLED WINDOW (ZONES DÉROULANTES)
+ * ============================================================================= */
+
+scrolledwindow {
+    border: 1px solid #dcdde1;
+    border-radius: 6px;
+    background-color: white;
+}
+
+/* =============================================================================
+ * STATUS BAR (BARRE D'ÉTAT)
+ * ============================================================================= */
+
+statusbar {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 12px;
+}
+
+/* =============================================================================
+ * GRID (GRILLE)
+ * ============================================================================= */
+
+grid {
+    background-color: transparent;
+}
+
+grid > label {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* =============================================================================
+ * SÉPARATEURS
+ * ============================================================================= */
+
+separator {
+    background-color: #dcdde1;
+    border: none;
+}
+
+/* =============================================================================
+ * BOÎTES (BOXES)
+ * ============================================================================= */
+
+box {
+    background-color: transparent;
+}
+
+/* =============================================================================
+ * DIALOGUES (MESSAGES)
+ * ============================================================================= */
+
+messagedialog {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* =============================================================================
+ * EFFETS GÉNÉRAUX
+ * ============================================================================= */
+
+/* Transition douce sur tous les éléments interactifs */
+button, entry, notebook tab, treeview row {
+    transition: all 0.2s ease-in-out;
+}
+

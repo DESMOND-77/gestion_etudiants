@@ -48,6 +48,7 @@ typedef struct
     GtkWidget *entry_email;
     GtkWidget *entry_sex;
     GtkWidget *btn_ajouter;
+    GtkWidget *btn_rafraichir;
 
     /* Tab 2: Afficher tous les étudiants */
     GtkWidget *tree_view;
@@ -108,6 +109,7 @@ static void mettre_a_jour_status(AppWidgets *widgets, const char *message)
  */
 static void charger_etudiants_dans_tree_view(AppWidgets *widgets, GtkListStore *store, Etudiant etudiants[], int n)
 {
+    (void)widgets;
     gtk_list_store_clear(store);
 
     for (int i = 0; i < n; i++)
@@ -134,6 +136,7 @@ static void charger_etudiants_dans_tree_view(AppWidgets *widgets, GtkListStore *
  */
 static void on_btn_ajouter_clicked(GtkButton *button, gpointer user_data)
 {
+    (void)button;
     AppWidgets *widgets = (AppWidgets *)user_data;
 
     const char *nom = gtk_entry_get_text(GTK_ENTRY(widgets->entry_nom));
@@ -219,6 +222,7 @@ static void on_btn_ajouter_clicked(GtkButton *button, gpointer user_data)
  */
 static void on_btn_afficher_clicked(GtkButton *button, gpointer user_data)
 {
+    (void)button;
     AppWidgets *widgets = (AppWidgets *)user_data;
 
     Etudiant etudiants[MAX_STUD];
@@ -236,6 +240,7 @@ static void on_btn_afficher_clicked(GtkButton *button, gpointer user_data)
  */
 static void on_btn_rechercher_clicked(GtkButton *button, gpointer user_data)
 {
+    (void)button;
     AppWidgets *widgets = (AppWidgets *)user_data;
 
     const char *nom = gtk_entry_get_text(GTK_ENTRY(widgets->entry_recherche));
@@ -285,6 +290,7 @@ static void on_btn_rechercher_clicked(GtkButton *button, gpointer user_data)
  */
 static void on_btn_rechercher_modif_clicked(GtkButton *button, gpointer user_data)
 {
+    (void)button;
     AppWidgets *widgets = (AppWidgets *)user_data;
 
     const char *matricule = gtk_entry_get_text(GTK_ENTRY(widgets->entry_matricule_modif));
@@ -333,6 +339,7 @@ static void on_btn_rechercher_modif_clicked(GtkButton *button, gpointer user_dat
  */
 static void on_btn_modifier_clicked(GtkButton *button, gpointer user_data)
 {
+    (void)button;
     AppWidgets *widgets = (AppWidgets *)user_data;
 
     const char *matricule = gtk_entry_get_text(GTK_ENTRY(widgets->entry_matricule_modif));
@@ -397,6 +404,7 @@ static void on_btn_modifier_clicked(GtkButton *button, gpointer user_data)
  */
 static void on_btn_supprimer_clicked(GtkButton *button, gpointer user_data)
 {
+    (void)button;
     AppWidgets *widgets = (AppWidgets *)user_data;
 
     const char *matricule = gtk_entry_get_text(GTK_ENTRY(widgets->entry_matricule_modif));
@@ -478,6 +486,7 @@ static void on_btn_supprimer_clicked(GtkButton *button, gpointer user_data)
  */
 static void on_btn_quit_clicked(GtkButton *button, gpointer user_data)
 {
+    (void)button;
     GtkWidget *window = GTK_WIDGET(user_data);
     gtk_window_close(GTK_WINDOW(window));
 }
@@ -491,7 +500,7 @@ static void on_btn_quit_clicked(GtkButton *button, gpointer user_data)
  */
 static void creer_colonnes(GtkTreeView *tree_view)
 {
-    GtkCellRendererText *renderer;
+    GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
 
     /* Nom */
@@ -608,8 +617,8 @@ static GtkWidget *creer_tab_afficher(AppWidgets *widgets)
     gtk_box_pack_start(GTK_BOX(vbox), label_titre, FALSE, FALSE, 10);
 
     /* Bouton Rafraîchir */
-    GtkWidget *btn_rafraichir = gtk_button_new_with_label("Rafraîchir");
-    gtk_box_pack_start(GTK_BOX(vbox), btn_rafraichir, FALSE, FALSE, 5);
+    widgets->btn_rafraichir = gtk_button_new_with_label("Rafraîchir");
+    gtk_box_pack_start(GTK_BOX(vbox),  widgets->btn_rafraichir, FALSE, FALSE, 5);
 
     /* Scroll Window */
     GtkWidget *scrolled = gtk_scrolled_window_new(NULL, NULL);
@@ -754,8 +763,6 @@ static GtkWidget *creer_tab_modifier(AppWidgets *widgets)
 static void load_css(void)
 {
     GtkCssProvider *provider = gtk_css_provider_new();
-    GdkDisplay *display = gdk_display_get_default();
-    GdkScreen *screen = gdk_display_get_default_screen(display);
 
     gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
                                               GTK_STYLE_PROVIDER(provider),
@@ -830,14 +837,12 @@ int main(int argc, char **argv)
     widgets->status_context_id = 0;
     gtk_box_pack_start(GTK_BOX(vbox_main), widgets->status_bar, FALSE, FALSE, 0);
 
-    /* Créer le bouton rafraichir et le stocker temporairement */
-    GtkWidget *btn_rafraichir = gtk_button_new_with_label("Rafraîchir");
 
     /* Connexion des signaux */
     g_signal_connect(widgets->btn_ajouter, "clicked",
                    G_CALLBACK(on_btn_ajouter_clicked), widgets);
 
-    g_signal_connect(btn_rafraichir, "clicked",
+    g_signal_connect(widgets->btn_rafraichir, "clicked",
                    G_CALLBACK(on_btn_afficher_clicked), widgets);
 
     g_signal_connect(widgets->btn_rechercher, "clicked",
