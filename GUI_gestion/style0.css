@@ -10,10 +10,10 @@
  * ============================================================================= */
 
 window {
-    background-color: #f5f6fa;
-    color: #2c3e50;
-    font-family: "Segoe UI", "Ubuntu", "Cantarell", sans-serif;
-    font-size: 13px;
+  background-color: #f5f6fa;
+  color: #2c3e50;
+  font-family: "Segoe UI", "Ubuntu", "Cantarell", sans-serif;
+  font-size: 13px;
 }
 
 /* =============================================================================
@@ -21,27 +21,27 @@ window {
  * ============================================================================= */
 
 headerbar {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    color: white;
-    border: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 headerbar title {
-    font-weight: 600;
-    font-size: 16px;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 headerbar button {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 4px;
-    padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 6px 12px;
 }
 
 headerbar button:hover {
-    background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* =============================================================================
@@ -49,39 +49,39 @@ headerbar button:hover {
  * ============================================================================= */
 
 notebook {
-    background-color: #f5f6fa;
-    border: none;
+  background-color: #f5f6fa;
+  border: none;
 }
 
 notebook tab {
-    background-color: #ffffff;
-    color: #7f8c8d;
-    border: 1px solid #dcdde1;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    padding: 10px 20px;
-    margin: 2px 2px 0 2px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+  background-color: #ffffff;
+  color: #7f8c8d;
+  border: 1px solid #dcdde1;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  padding: 10px 20px;
+  margin: 2px 2px 0 2px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 notebook tab:hover {
-    background-color: #6ba3e0;
-    color: white;
+  background-color: #6ba3e0;
+  color: white;
 }
 
 notebook tab:checked {
-    background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
-    color: white;
-    box-shadow: 0 -2px 8px rgba(74, 144, 217, 0.3);
-    font-weight: 600;
+  background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+  color: white;
+  box-shadow: 0 -2px 8px rgba(74, 144, 217, 0.3);
+  font-weight: 600;
 }
 
 notebook stack {
-    background-color: #ffffff;
-    border: 1px solid #dcdde1;
-    border-radius: 0 8px 8px 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border: 1px solid #dcdde1;
+  border-radius: 0 8px 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 /* =============================================================================
@@ -89,15 +89,15 @@ notebook stack {
  * ============================================================================= */
 
 label {
-    color: #2c3e50;
-    font-family: "Segoe UI", "Ubuntu", sans-serif;
+  color: #2c3e50;
+  font-family: "Segoe UI", "Ubuntu", sans-serif;
 }
 
 label.title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
 }
 
 /* =============================================================================
@@ -105,22 +105,22 @@ label.title {
  * ============================================================================= */
 
 entry {
-    background-color: white;
-    color: #2c3e50;
-    border: 2px solid #dcdde1;
-    border-radius: 6px;
-    padding: 10px 12px;
-    transition: all 0.2s ease;
+  background-color: white;
+  color: #2c3e50;
+  border: 2px solid #dcdde1;
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: all 0.2s ease;
 }
 
 entry:focus {
-    border-color: #4a90d9;
-    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
 }
 
 entry:disabled {
-    background-color: #f0f0f0;
-    color: #7f8c8d;
+  background-color: #f0f0f0;
+  color: #7f8c8d;
 }
 
 /* =============================================================================
@@ -128,68 +128,68 @@ entry:disabled {
  * ============================================================================= */
 
 button {
-    background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 20px;
-    font-weight: 500;
-    font-size: 13px;
-    box-shadow: 0 2px 6px rgba(74, 144, 217, 0.3);
-    transition: all 0.2s ease;
+  background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 500;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(74, 144, 217, 0.3);
+  transition: all 0.2s ease;
 }
 
 button:hover {
-    background: linear-gradient(135deg, #6ba3e0 0%, #4a90d9 100%);
-    box-shadow: 0 4px 12px rgba(74, 144, 217, 0.4);
-    transform: translateY(-1px);
+  background: linear-gradient(135deg, #6ba3e0 0%, #4a90d9 100%);
+  box-shadow: 0 4px 12px rgba(74, 144, 217, 0.4);
+ 
 }
 
 button:active {
-    background: linear-gradient(135deg, #357abd 0%, #4a90d9 100%);
-    box-shadow: 0 1px 3px rgba(74, 144, 217, 0.3);
-    transform: translateY(0);
+  background: linear-gradient(135deg, #357abd 0%, #4a90d9 100%);
+  box-shadow: 0 1px 3px rgba(74, 144, 217, 0.3);
+  
 }
 
 /* Bouton Quitter dans headerbar */
 headerbar button {
-    background: rgba(255, 255, 255, 0.15);
-    box-shadow: none;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: none;
 }
 
 headerbar button:hover {
-    background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* Bouton Ajouter (vert - succès) */
 #btn_ajouter {
-    background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
-    box-shadow: 0 2px 6px rgba(39, 174, 96, 0.3);
+  background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+  box-shadow: 0 2px 6px rgba(39, 174, 96, 0.3);
 }
 
 #btn_ajouter:hover {
-    background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  box-shadow: 0 4px 12px rgba(39, 174, 96, 0.4);
 }
 
 /* Bouton Modifier (bleu) */
 #btn_modifier {
-    background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
+  background: linear-gradient(135deg, #4a90d9 0%, #357abd 100%);
 }
 
 #btn_modifier:hover {
-    background: linear-gradient(135deg, #6ba3e0 0%, #4a90d9 100%);
+  background: linear-gradient(135deg, #6ba3e0 0%, #4a90d9 100%);
 }
 
 /* Bouton Supprimer (rouge) */
 #btn_supprimer {
-    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  box-shadow: 0 2px 6px rgba(231, 76, 60, 0.3);
 }
 
 #btn_supprimer:hover {
-    background: linear-gradient(135deg, #e74c3c 0%, #e74c3c 100%);
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+  background: linear-gradient(135deg, #e74c3c 0%, #e74c3c 100%);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
 }
 
 /* =============================================================================
@@ -197,42 +197,42 @@ headerbar button:hover {
  * ============================================================================= */
 
 treeview {
-    background-color: white;
-    color: #2c3e50;
-    border: 1px solid #dcdde1;
-    border-radius: 6px;
-    padding: 5px;
-    font-size: 12px;
+  background-color: white;
+  color: #2c3e50;
+  border: 1px solid #dcdde1;
+  border-radius: 6px;
+  padding: 5px;
+  font-size: 12px;
 }
 
 treeview:hover {
-    border-color: #6ba3e0;
+  border-color: #6ba3e0;
 }
 
 /* En-têtes de colonnes */
 treeview header button {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    color: white;
-    font-weight: 600;
-    border-radius: 4px;
-    padding: 8px 12px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 8px 12px;
 }
 
 treeview row {
-    background-color: white;
+  background-color: white;
 }
 
 treeview row:nth-child(even) {
-    background-color: #f8f9fa;
+  background-color: #f8f9fa;
 }
 
 treeview row:hover {
-    background-color: rgba(74, 144, 217, 0.1);
+  background-color: rgba(74, 144, 217, 0.1);
 }
 
 treeview row:selected {
-    background-color: #4a90d9;
-    color: white;
+  background-color: #4a90d9;
+  color: white;
 }
 
 /* =============================================================================
@@ -240,9 +240,9 @@ treeview row:selected {
  * ============================================================================= */
 
 scrolledwindow {
-    border: 1px solid #dcdde1;
-    border-radius: 6px;
-    background-color: white;
+  border: 1px solid #dcdde1;
+  border-radius: 6px;
+  background-color: white;
 }
 
 /* =============================================================================
@@ -250,11 +250,11 @@ scrolledwindow {
  * ============================================================================= */
 
 statusbar {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    font-size: 12px;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 12px;
 }
 
 /* =============================================================================
@@ -262,12 +262,12 @@ statusbar {
  * ============================================================================= */
 
 grid {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 grid > label {
-    color: #2c3e50;
-    font-weight: 500;
+  color: #2c3e50;
+  font-weight: 500;
 }
 
 /* =============================================================================
@@ -275,8 +275,8 @@ grid > label {
  * ============================================================================= */
 
 separator {
-    background-color: #dcdde1;
-    border: none;
+  background-color: #dcdde1;
+  border: none;
 }
 
 /* =============================================================================
@@ -284,7 +284,7 @@ separator {
  * ============================================================================= */
 
 box {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 /* =============================================================================
@@ -292,9 +292,9 @@ box {
  * ============================================================================= */
 
 messagedialog {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 /* =============================================================================
@@ -302,7 +302,9 @@ messagedialog {
  * ============================================================================= */
 
 /* Transition douce sur tous les éléments interactifs */
-button, entry, notebook tab, treeview row {
-    transition: all 0.2s ease-in-out;
+button,
+entry,
+notebook tab,
+treeview row {
+  transition: all 0.2s ease-in-out;
 }
-

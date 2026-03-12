@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ============================================================
  * style.css — Gestion des Étudiants (GTK+ 3)
  * Thème : Moderne / Académique — Palette bleue-ardoise
@@ -488,3 +489,490 @@ box > entry {
 box > button {
   margin: 0 2px;
 }
+=======
+/* ============================================================
+ * style.css — Gestion des Étudiants (GTK+ 3)
+ * Thème : Moderne / Académique — Palette bleue-ardoise
+ * ============================================================ */
+
+/* ──────────────────────────────────────────
+   VARIABLES (émulées via couleurs répétées)
+   ────────────────────────────────────────── */
+
+/* Palette principale :
+   Fond principal      : #F5F7FA
+   Fond secondaire     : #FFFFFF
+   Accent primaire     : #2C5F8A
+   Accent hover        : #1E4570
+   Accent léger        : #D6E8F7
+   Danger              : #C0392B
+   Danger hover        : #96281B
+   Succès              : #27AE60
+   Texte principal     : #1C2B3A
+   Texte secondaire    : #5A7080
+   Bordure             : #D0DCE8
+*/
+
+/* ──────────────────────────────────────────
+   FENÊTRE PRINCIPALE
+   ────────────────────────────────────────── */
+
+window {
+  background-color: #f5f7fa;
+  color: #1c2b3a;
+  font-family: "Cantarell", "Segoe UI", sans-serif;
+  font-size: 13px;
+}
+
+/* ──────────────────────────────────────────
+   BARRE DE TITRE (HeaderBar)
+   ────────────────────────────────────────── */
+
+headerbar {
+  background: linear-gradient(135deg, #1e3a5f 0%, #2c5f8a 100%);
+  color: #ffffff;
+  border-bottom: 2px solid #1a3050;
+  padding: 6px 12px;
+  min-height: 46px;
+}
+
+headerbar label {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+headerbar button {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  transition:
+    background 200ms ease,
+    border-color 200ms ease;
+}
+
+headerbar button:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+headerbar button:active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Bouton fermer (×) */
+headerbar button.titlebutton {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  min-width: 16px;
+  min-height: 16px;
+}
+
+headerbar button.titlebutton:hover {
+  background: rgba(192, 57, 43, 0.7);
+  border-radius: 50%;
+}
+
+/* ──────────────────────────────────────────
+   NOTEBOOK (Onglets)
+   ────────────────────────────────────────── */
+
+notebook {
+  background-color: #f5f7fa;
+}
+
+notebook > header {
+  background-color: #eaeff5;
+  border-bottom: 2px solid #d0dce8;
+  padding: 0 8px;
+}
+
+notebook > header > tabs > tab {
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #5a7080;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 10px 20px;
+  margin: 0 2px;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+notebook > header > tabs > tab:hover {
+  color: #2c5f8a;
+  background-color: rgba(44, 95, 138, 0.06);
+  border-radius: 4px 4px 0 0;
+}
+
+notebook > header > tabs > tab:checked {
+  background-color: #ffffff;
+  color: #2c5f8a;
+  border-bottom: 3px solid #2c5f8a;
+  border-radius: 4px 4px 0 0;
+}
+
+notebook > stack {
+  background-color: #ffffff;
+  border: 1px solid #d0dce8;
+  border-top: none;
+}
+
+/* ──────────────────────────────────────────
+   CHAMPS DE SAISIE (Entry)
+   ────────────────────────────────────────── */
+
+entry {
+  background-color: #ffffff;
+  border: 1.5px solid #c8d8e8;
+  border-radius: 6px;
+  color: #1c2b3a;
+  padding: 7px 10px;
+  font-size: 13px;
+  min-width: 220px;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+entry:focus {
+  border-color: #2c5f8a;
+  box-shadow: 0 0 0 3px rgba(44, 95, 138, 0.15);
+  outline: none;
+}
+
+entry:disabled {
+  background-color: #eef2f6;
+  color: #a0b0bf;
+  border-color: #d8e4ee;
+}
+
+/* Placeholder */
+entry undershoot.left,
+entry undershoot.right {
+  background-color: transparent;
+}
+
+/* ──────────────────────────────────────────
+   BOUTONS GÉNÉRIQUES
+   ────────────────────────────────────────── */
+
+button {
+  background: linear-gradient(180deg, #ffffff 0%, #f0f4f8 100%);
+  border: 1.5px solid #c8d8e8;
+  border-radius: 7px;
+  color: #2c5f8a;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 7px 18px;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 80ms ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+button:hover {
+  background: linear-gradient(180deg, #ebf4ff 0%, #d6e8f7 100%);
+  border-color: #2c5f8a;
+  box-shadow: 0 2px 6px rgba(44, 95, 138, 0.18);
+}
+
+button:active {
+  background: linear-gradient(180deg, #d0e6f7 0%, #bdd9f0 100%);
+
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+button:focus {
+  box-shadow: 0 0 0 3px rgba(44, 95, 138, 0.2);
+  outline: none;
+}
+
+/* ──────────────────────────────────────────
+   BOUTON "AJOUTER L'ÉTUDIANT" (#btn_ajouter)
+   ────────────────────────────────────────── */
+
+#btn_ajouter {
+  background: linear-gradient(135deg, #2c5f8a 0%, #1e4570 100%);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  padding: 10px 24px;
+  box-shadow: 0 3px 8px rgba(44, 95, 138, 0.35);
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease,
+    transform 80ms ease;
+}
+
+#btn_ajouter:hover {
+  background: linear-gradient(135deg, #1e4570 0%, #163552 100%);
+  box-shadow: 0 5px 14px rgba(44, 95, 138, 0.45);
+}
+
+#btn_ajouter:active {
+  box-shadow: 0 2px 5px rgba(44, 95, 138, 0.3);
+}
+
+/* ──────────────────────────────────────────
+   BOUTON "MODIFIER" (#btn_modifier)
+   ────────────────────────────────────────── */
+
+#btn_modifier {
+  background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 24px;
+  box-shadow: 0 3px 8px rgba(39, 174, 96, 0.35);
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease,
+    transform 80ms ease;
+}
+
+#btn_modifier:hover {
+  background: linear-gradient(135deg, #1e8449 0%, #176137 100%);
+  box-shadow: 0 5px 14px rgba(39, 174, 96, 0.45);
+}
+
+#btn_modifier:active {
+  box-shadow: 0 2px 5px rgba(39, 174, 96, 0.3);
+}
+
+/* ──────────────────────────────────────────
+   BOUTON "SUPPRIMER" (#btn_supprimer)
+   ────────────────────────────────────────── */
+
+#btn_supprimer {
+  background: linear-gradient(135deg, #c0392b 0%, #96281b 100%);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 24px;
+  box-shadow: 0 3px 8px rgba(192, 57, 43, 0.35);
+  transition:
+    background 200ms ease,
+    box-shadow 200ms ease,
+    transform 80ms ease;
+}
+
+#btn_supprimer:hover {
+  background: linear-gradient(135deg, #96281b 0%, #7b2112 100%);
+  box-shadow: 0 5px 14px rgba(192, 57, 43, 0.45);
+}
+
+#btn_supprimer:active {
+  box-shadow: 0 2px 5px rgba(192, 57, 43, 0.3);
+}
+
+/* ──────────────────────────────────────────
+   TREEVIEW (Tableaux de données)
+   ────────────────────────────────────────── */
+
+treeview {
+  background-color: #ffffff;
+  border: 1px solid #d0dce8;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1c2b3a;
+}
+
+treeview.view:hover {
+  background-color: #2c5f8a;
+  color: #ffffff;
+}
+
+treeview:selected {
+  background-color: #d6e8f7;
+  color: #1e3a5f;
+}
+
+treeview:selected:focus {
+  background-color: #2c5f8a;
+  color: #ffffff;
+}
+
+/* En-têtes de colonnes */
+treeview header button {
+  background: linear-gradient(135deg, #1715b4 0%, #2147c4 100%);
+  border: none;
+  border-right: 1px solid #d0dce8;
+  border-bottom: 2px solid #c0d0e0;
+  color: #eef4fa;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 8px 12px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+treeview header button:hover {
+  background: linear-gradient(180deg, #d6e8f7 0%, #c8daee 100%);
+  border-color: #b0c8e0;
+}
+
+/* Lignes alternées */
+/* treeview.view:nth-child(0) {
+  background-color: #f5e0ba;
+} */
+
+/* ──────────────────────────────────────────
+   SCROLLED WINDOW
+   ────────────────────────────────────────── */
+
+scrolledwindow {
+  border: 1.5px solid #d0dce8;
+  border-radius: 8px;
+}
+
+scrollbar {
+  background-color: transparent;
+  border: none;
+}
+
+scrollbar slider {
+  background-color: #c0d0e0;
+  border-radius: 10px;
+  min-width: 6px;
+  min-height: 6px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+scrollbar slider:hover {
+  background-color: #2c5f8a;
+}
+
+/* ──────────────────────────────────────────
+   BARRE DE STATUT
+   ────────────────────────────────────────── */
+
+statusbar {
+  background: linear-gradient(145deg, #34495e 0%, #6ab1f8 100%);
+  border-top: 1px solid #d0dce8;
+  color: #273844;
+  font-size: 12px;
+  padding: 4px 12px;
+  font-style: italic;
+}
+
+statusbar label {
+  color: #ffb20c;
+  font-size: 12px;
+}
+
+/* ──────────────────────────────────────────
+   SÉPARATEUR
+   ────────────────────────────────────────── */
+
+separator {
+  background-color: #d0dce8;
+  min-height: 1px;
+  margin: 4px 0;
+}
+
+/* ──────────────────────────────────────────
+   BOÎTES DE DIALOGUE
+   ────────────────────────────────────────── */
+
+dialog {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+dialog .dialog-action-area {
+  background-color: #f5f7fa;
+  border-top: 1px solid #d0dce8;
+  padding: 8px 12px;
+}
+
+messagedialog .message-dialog-content {
+  padding: 20px;
+}
+
+/* Boutons dans les dialogues */
+dialog button.suggested-action {
+  background: linear-gradient(135deg, #2c5f8a 0%, #1e4570 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: 700;
+}
+
+dialog button.destructive-action {
+  background: linear-gradient(135deg, #c0392b 0%, #96281b 100%);
+  color: #ffffff;
+  border: none;
+  font-weight: 700;
+}
+
+/* ──────────────────────────────────────────
+   GRILLES (formulaires)
+   ────────────────────────────────────────── */
+
+grid {
+  margin: 8px 0;
+}
+
+/* ──────────────────────────────────────────
+   BOX DE RECHERCHE HORIZONTAL
+   ────────────────────────────────────────── */
+
+box > entry {
+  margin: 0 4px;
+}
+
+box > button {
+  margin: 0 2px;
+}
+
+/* ──────────────────────────────────────────
+   LABELS
+   ────────────────────────────────────────── */
+
+label {
+  /* color: #1c2b3a; */
+  font-size: 13px;
+}
+
+/* Titres des onglets */
+/* label[use-markup="true"] {
+  color: #1e3a5f;
+  margin-bottom: 4px;
+} */
+
+/* Labels de formulaire (côté gauche des grilles) */
+grid > label {
+  color: #5a7080;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  margin-right: 8px;
+}
+
+/* Note "* Champs obligatoires" */
+grid ~ label {
+  color: #8a9bab;
+  font-size: 11px;
+  font-style: italic;
+}
+>>>>>>> f086f591598c0547a70006c38aea339c86d43188
